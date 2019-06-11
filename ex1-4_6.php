@@ -8,7 +8,7 @@ echo 'a = ' . $a . '<br>';
 echo 'b = ' . $b . '<br>';
 
 if ($a >= 0 && $b >= 0) {
-    echo abs($a - $b);
+    echo $a - $b;
 } else if ($a < 0 && $b < 0) {
     echo $a * $b;
 } else {
@@ -24,46 +24,48 @@ echo 'a = ' . $a . '<br>';
 
 
 switch($a) {
-    case 0: echo 0 . ' ';
-    case 1: echo 1 . ' ';
-    case 2: echo 2 . ' ';
-    case 3: echo 3 . ' ';
-    case 4: echo 4 . ' ';
-    case 5: echo 5 . ' ';
-    case 6: echo 6 . ' ';
-    case 7: echo 7 . ' ';
-    case 8: echo 8 . ' ';
-    case 9: echo 9 . ' ';
-    case 10: echo 10 . ' ';
-    case 11: echo 11 . ' ';
-    case 12: echo 12 . ' ';
-    case 13: echo 13 . ' ';
-    case 14: echo 14 . ' ';
-    case 15: echo 15 . ' ';
+    case 0: echo $a++ . ' ';
+    case 1: echo $a++ . ' ';
+    case 2: echo $a++. ' ';
+    case 3: echo $a++. ' ';
+    case 4: echo $a++. ' ';
+    case 5: echo $a++. ' ';
+    case 6: echo $a++ . ' ';
+    case 7: echo $a++ . ' ';
+    case 8: echo $a++ . ' ';
+    case 9: echo $a++ . ' ';
+    case 10: echo $a++ . ' ';
+    case 11: echo $a++ . ' ';
+    case 12: echo $a++ . ' ';
+    case 13: echo $a++ . ' ';
+    case 14: echo $a++ . ' ';
+    case 15: echo $a . ' ';
 }
 
 echo '<br><br>';
 
 //Задание 3
 
-function add(int $arg1, int $arg2) {
+function add($arg1, $arg2) {
     return $arg1 + $arg2;
 };
 
-function dim(int $arg1, int $arg2) {
+function dim($arg1, $arg2) {
     return $arg1 - $arg2;
 };
 
-function mult(int $arg1, int $arg2) {
+function mult($arg1, $arg2) {
     return $arg1 * $arg2;
 };
 
-function div(int $arg1, int $arg2) {
-    if ($arg2 != 0) {
-        return $arg1 / $arg2;
-    }
+function div($arg1, $arg2) {
+    // if ($arg2 != 0) {
+    //     return $arg1 / $arg2;
+    // }
 
-    return 'Ошибка: деление на ноль';
+    // return 'Ошибка: деление на ноль';
+
+    return $arg2 ? ($arg1 / $arg2): 'Ошибка: деление на ноль';
 };
 
 echo 'a + b = ' . add($a,$b) . '<br>';
@@ -86,6 +88,8 @@ function mathOperation(int $arg1, int $arg2, string $operation) {
             return mult($arg1, $arg2);
         case 'div':    
             return div($arg1, $arg2);
+        default:
+            return "Ошибка: задана несуществующая операция";
     }
 }
 echo 'a + b = ' . mathOperation($a, $b, 'add') . '<br>';
@@ -103,18 +107,10 @@ function exponent($vol, $pow) {
         return 1;
     }
 
-    if ($pow == 1) {
-        return $vol;
-    }
-
-    if ($pow == 2) {
-        return $vol * $vol;
-    }
-
     return $vol * (exponent($vol, $pow - 1));
 }
 
-echo exponent(2, 5) . '<br>';
+echo exponent(3, 3) . '<br>';
 echo exponent(2, 3) . '<br><br>';
 
 // $arr = [
