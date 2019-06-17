@@ -3,45 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            background-image: url(./img/texture1.png);
+            color: #ff8989;
+        }
+
+        img {
+            padding: 1px;
+            margin: 5px;
+            border: 1px solid pink;
+        }
+
+        .upload {
+            color: #ff8989;
+        }
+
+        #new_img {
+            /* width: 0.1px;
+            height: 0.1px; */
+            /* opacity: 0; */
+            /* overflow: hidden; */
+            /* position: absolute; */
+            /* z-index: -1; */
+        }
+
+        a img {
+            transition: 1s;
+        }
+        a img:hover {
+            filter: brightness(1.1);
+            transform: scale(1.1);
+            transition-duration: .3s;
+        }
+
+        .upload_btn {
+            color: #ff8989;
+            border: none;
+            background: none;
+        }
+
+        .upload_btn:hover {
+            color: #ff5959;
+        }
+        
+    </style>
     <title><?=$title?></title>
 </head>
 <body>
 
-<ul class="nav justify-content-center bg-secondary">
+<?=$nav?>
+
+<!-- <ul class="nav justify-content-center bg-secondary">
   <li class="nav-item">
     <a class="nav-link active text-light" href="/">Главная</a>
   </li>
   <li class="nav-item">
     <a class="nav-link text-light" href="/?page=catalog">Каталог</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link text-light" href="/?page=ex1">Задание 1</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-light" href="/?page=ex2">Задание 2</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-light" href="/?page=ex3">Задание 3</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-light" href="/?page=ex4">Задание 4</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-light" href="/?page=ex5">Задание 5</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-light" href="/?page=ex6">Задание 6</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-light" href="/?page=ex7">Задание 7</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-light" href="/?page=ex8">Задание 8</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-light" href="/?page=ex9">Задание 9</a>
-  </li>
-</ul>
+</ul> -->
 
 <div class="container">
     <?=$content?>

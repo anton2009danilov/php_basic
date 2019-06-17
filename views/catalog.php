@@ -1,8 +1,9 @@
 <div class='container'>
     <h3>Каталог магазина:</h3>
-    <ul>
+    <ul class='list-group d-flex justify-content-between'>
         <?foreach($catalog as $item):?>
-            <li><?=$item;?></li>
+            <li class='list-group-item'><?=$item;?></li>
         <?endforeach;?>
     </ul>
+
 </div>
