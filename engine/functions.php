@@ -1,5 +1,38 @@
 <?php
 
+function load_new_img() {
+    if($_POST['load']) {
+                 
+        $new_img = $_FILES['new_img'];
+        $type = $new_img['type'];
+        $name = $new_img['name'];
+        $tmp_name = $new_img['tmp_name'];
+     
+        if($size > 100000) {
+            // header("Location: /?page=gallery");    
+            echo "Ошибка загрузки: превышен максимальный размер файла";
+        } 
+
+        else if ($type !== 'image/jpeg' && $type !=='image/png' && $type !== 'image/gif') {
+            // $error = "Ошибка загрузки: допускается только загрузка файлов формата jpeg, png, gif";
+            echo "Ошибка загрузки: допускается только загрузка файлов формата jpeg, png, gif";
+        }
+        
+        else {
+            $path = __DIR__ . '/img/big/' . $name;
+
+            if(!move_uploaded_file($tmp_name, $path)){
+                    // $error ="Ошибка загрузки: неверно указано имя файла или директория загрузки";
+                    echo "Ошибка загрузки: неверно указано имя файла или директория загрузки";
+                } else {
+                    create_thumbnail("./img/big/$name", "./img/small/$name", 150, 150);
+                    header("Location: /?page=gallery");
+                    die();
+                }
+        }
+    }
+}
+
 function render($page, array $params = []) {
     $content = renderTemplate(LAYOUTS_DIR . 'main', [
         'content'=>renderTemplate($page, $params),
@@ -29,51 +62,8 @@ function renderTemplate($page, array $params = []) {
     return ob_get_clean();
 }
 
-
-
-// $arr2 = [
-//     'Menu1' => [
-//         'linkA1' => 'Страница А1',
-//         'linkA2' => 'Страница А2',
-//         'Menu2' => [
-//                 'linkB1' => 'Страница B1',
-//                 'linkB2' => 'Страница B2',
-//                 'linkB3' => 'Страница B3',
-//                 'linkB4' => 'Страница B4',
-//         ],
-//         'linkA3' => 'Страница А3',
-//         'linkA4' => 'Страница А4',
-//     ]
-// ];
-
-// $arr = [
-//     'Menu1' => [
-//         'linkA1' => 'Страница А1',
-//         'linkA2' => 'Страница А2',
-//     ]
-// ];
-
-function renderMenu($arr) {
-    $menu = '<ul class="nav justify-content-center bg-secondary">';
-    foreach ($arr as $link => $text) {
-        if (is_array($text)){
-
-            // $menu .= $link;
-        }
-
-        if (!is_array($text)) {
-            $menu .= "
-            <li class='nav-item'>
-                <a class= 'nav-link active text-light' href = '$link'>{$text}</a>
-            </li>
-            ";
-        } else {
-            
-           $menu .= renderMenu($arr[$link]);
-        }
+function renderMenu($params) {
+    
+    return renderTemplate('menu', $params);
 
     }
-
-    return $menu . '</ul>';
-}
-

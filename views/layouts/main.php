@@ -51,9 +51,8 @@
     <title><?=$title?></title>
 </head>
 <body>
-
+<?=$error?>
 <?=$nav?>
-
 <!-- <ul class="nav justify-content-center bg-secondary">
   <li class="nav-item">
     <a class="nav-link active text-light" href="/">Главная</a>

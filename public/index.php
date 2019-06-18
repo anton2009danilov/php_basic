@@ -13,25 +13,50 @@ if (isset($_GET['page'])) {
 }
 
 $params = [];
+// $nav = renderMenu(
+//     [
+//         'Menu' => [
+//         'index' => [
+//             './' => 'Главная'
+//         ],
+//         'catalog' => [
+//             './?page=catalog' => 'Каталог'
+//         ],
+//         'gallery' => [
+//             './?page=gallery' => 'Галерея'],
+//         'api_catalog' => [
+//             './?page=api_catalog' => 'api'],
+//         ]
+//     ]
+// );
 $nav = renderMenu(
     [
-        'Menu' => [
         'index' => [
-            './' => 'Главная'
+            'link' => './',
+            'name' => 'Главная',
+            // './' => 'Главная'
         ],
         'catalog' => [
-            './?&page=catalog' => 'Каталог'
+            'link' => './?page=catalog',
+            'name' => 'Каталог',
+            // './?page=catalog' => 'Каталог'
         ],
         'gallery' => [
-            './?&page=gallery' => 'Галерея'],
+            'link' => './?page=gallery',
+            'name' => 'Галерея',
+            // './?page=gallery' => 'Галерея'
+        ],
         'api_catalog' => [
-            './?&page=api_catalog' => 'api'],
-        ]
+            'link' => './?page=api_catalog',
+            'name' => 'api',
+            // './?page=api_catalog' => 'api'
+        ],
     ]
 );
 
-// var_dump($nav);
 
+// var_dump($nav);
+// die();
 
 
 switch ($page) {
@@ -63,37 +88,8 @@ switch ($page) {
         break;
     
     case 'gallery':
-        
-        if($_POST['load']) {
-            // var_dump($_POST);
-            // var_dump($_FILES);
-            // exit;
-            extract($_FILES);
-            extract($new_img);
-            if($size > 100000) {
-                // header("Location: /?page=gallery");    
-                echo "Ошибка загрузки: превышен максимальный размер файла";
-            } 
-
-            else if ($type !== 'image/jpeg' && $type !=='image/png' && $type !== 'image/gif') {
-                echo "Ошибка загрузки: допускается только загрузка файлов формата jpeg, png, gif";
-            }
-            
-            else {
-                $path = __DIR__ . '/img/big/' . $name;
-
-                if(!move_uploaded_file($tmp_name, $path)){
-                    // trigger_error("Ошибка загрузки", E_USER_ERROR);
-                    echo "Ошибка загрузки: неверно указано имя файла или директория загрузки";
-                } else {
-                    create_thumbnail("./img/big/$name", "./img/small/$name", 150, 150);
-                    header("Location: /?page=gallery");
-                }
-
-            }
-
-            
-        }
+    
+        load_new_img();
 
         $images = scandir('./img/big');
         unset($images[0], $images[1]);
@@ -103,7 +99,7 @@ switch ($page) {
             'nav' => print($nav),
             'gallery' => $images,
         ];
-    break;
+        break;
 
     default:
         $params = [
