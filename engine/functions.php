@@ -1,15 +1,132 @@
 <?php
 
-function load_new_img($db) {
+// getDB();
+
+function prepareVariables ($page) {
+
+    // $db = getDb();
+    $params = [];
+
+    $nav = renderMenu(
+        [
+            'index' => [
+                'link' => '..',
+                'name' => 'Главная',
+            ],
+            'catalog' => [
+                'link' => '../catalog',
+                'name' => 'Каталог',
+            ],
+            'gallery' => [
+                'link' => '../gallery',
+                'name' => 'Галерея',
+            ],
+            // 'api_catalog' => [
+            //     'link' => './?page=api_catalog',
+            //     'name' => 'api',
+            // ],
+        ]
+    );
+
+    switch ($page) {
+        case 'index':
+            $params = [
+                'title' => 'Main',
+                'nav' => print($nav)
+            ];
+            break;
+        
+        case 'catalog':
+            $params = [
+                'title' => 'Каталог',
+                'nav' => print($nav),
+                'catalog' => ["Мишка", "Пони", "Крокодил"],
+            ];
+            break;
+    
+        // case 'api_catalog':
+    
+        //     $params = [
+        //         'title' => 'api',
+        //         'catalog' => ["Мишка", "Пони", "Крокодил"]
+        //     ];
+    
+        //     echo json_encode($params, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+        //     die();
+        //     break;
+        
+        case 'gallery':
+        
+            load_new_img();
+    
+            // $gallery = mysqli_query($db, "SELECT * FROM `gallery` ORDER BY `views` DESC");
+            $gallery = getGallery();
+    
+            $params = [
+                'title' => 'Галерея',
+                'nav' => print($nav),
+                'gallery' => $gallery,
+            ];
+            break;
+        
+        case 'card':
+            
+            // $id = (int) $_GET['id'];
+            $id = explode("/", $_SERVER['REQUEST_URI'])[2];
+            // $id = str_replace('&id=', '', $url_id);
+
+            // die(var_dump($id));
+            load_new_img();
+            
+            upd_views($id);
+            // $query = mysqli_query($db, "SELECT * FROM `gallery` WHERE `id` = $id");  
+            // $card = mysqli_fetch_assoc($query);
+            $card = getCard($id);
+    
+            $params = [
+                'title' => '№' . $id,
+                'id' => $id,
+                'nav' => print($nav),
+                'card' => $card,
+            ];
+            break;
+    
+        default:
+            $params = [
+                'title' => $page,
+            ];
+        }
+    return $params;
+}
+
+function getGallery() {
+    $sql = "SELECT * FROM `gallery` ORDER BY `views` DESC";
+    $gallery = getAssocResult($sql);
+    return $gallery;
+}
+
+function getCard($id) {
+    $sql = "SELECT * FROM `gallery` WHERE `id` = $id";
+    $card = getAssocResult($sql)[0];
+    $result = [];
+    if (isset($card)){
+        $result = $card;
+    }
+    return $result;
+}
+
+function load_new_img() {
+    $db = getDb();
+    
     if($_POST['load']) {
                  
         $new_img = $_FILES['new_img'];
         $type = $new_img['type'];
         $name = $new_img['name'];
         $tmp_name = $new_img['tmp_name'];
-     
-        if($size > 100000) {
-            // header("Location: /?page=gallery");    
+
+        if($size > 120000) {
+            // header("Location: /gallery");    
             echo "Ошибка загрузки: превышен максимальный размер файла";
         } 
 
@@ -20,16 +137,18 @@ function load_new_img($db) {
         
         else {
             $path = str_replace('engine', 'public', __DIR__) . '/img/big/' . $name;
-            // var_dump($path);
+            die(var_dump($path));
             // die;
 
             if(!move_uploaded_file($tmp_name, $path)){
                     // $error ="Ошибка загрузки: неверно указано имя файла или директория загрузки";
                     echo "Ошибка загрузки: неверно указано имя файла или директория загрузки";
                 } else {
-                    update_gallery_database($db, $name);
-                    create_thumbnail("./img/big/$name", "./img/small/$name", 150, 150);
-                    header("Location: /?page=gallery");
+                    // die(var_dump($name));
+                    update_gallery_database($name);
+                    create_thumbnail("../public/img/big/$name", "../public/img/small/$name", 150, 150);
+                    // header("Location: /?page=gallery");
+                    header("Location: /gallery");
                     die();
                 }
         }
@@ -71,7 +190,8 @@ function renderMenu($params) {
 
     }
 
-function init_gallery_database($db) {
+function init_gallery_database() {
+    $db = getDb();
     $gallery = array_splice(scandir('./img/big'), 2);
     // $path = str_replace('\engine', '\public\\', __DIR__);
     $path = './img/big';
@@ -106,11 +226,11 @@ function init_gallery_database($db) {
 
 }
 
-function update_gallery_database($db, $file_name) {
+function update_gallery_database($file_name) {
     
-    
+    $db =getDb();
     $location = './img/big';
-    $size = filesize('../public/img/big/' . $file_name);
+    $size = filesize('./img/big/' . $file_name);
 
         // var_dump($location);
         // var_dump($name);
@@ -134,10 +254,8 @@ function update_gallery_database($db, $file_name) {
 
 }
 
-function upd_views($db, $card) {
-    $id = $card['id'];
-    // echo $card['views'];
-
+function upd_views($id) {
+    $db = getDb();
     $update = "UPDATE `gallery` SET `views` = `views` + 1 WHERE id = $id";
     $stmt = mysqli_prepare($db, $update);
     mysqli_stmt_execute($stmt);

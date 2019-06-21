@@ -1,10 +1,10 @@
 <div class='container'>
     <h3>Каталог магазина:</h3>
+    
     <ul class='d-flex flex-wrap justify-content-between'>
         <?foreach($gallery as $item):?>
             <li class='figure'>
-                <a href="/?page=card&id=<?=$item['id']?>" target="_blank"><img src="/img/small/<?=$item['name'];?>" alt="<?=$item['name'];?>"></a>
-                <!-- <a href="/img/big/<?=$item?>" target="_blank"><img src="/img/small/<?=$item;?>" alt="<?=$item;?>"></a> -->
+                <a href="/card/<?=$item['id']?>" target="_blank"><img src="/img/small/<?=$item['name'];?>" alt="<?=$item['name'];?>"></a>
             </li>
         <?endforeach;?>
     </ul>
