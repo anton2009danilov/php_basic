@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <style>
         body {
-            background-image: url(./img/texture1.png);
+            background-image: url(/img/texture1.png);
             color: #ff8989;
         }
 
@@ -67,4 +68,33 @@
 </div>
 
 </body>
+
+<script>
+
+    $(document).ready(function(){
+        $(".action").on('click', function(){
+            let id = $("#likeButton").attr("data-id");
+           
+            console.log(id);
+            
+            $.ajax(
+                
+                {
+                url: "../addlike/" + id,
+                type: "POST",
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                error: function() {console.log("ajax error");},
+                success: function(answer){
+                    $('#like').html(answer.result);
+                }
+            })
+        })
+    }
+)
+
+</script>
+
 </html>

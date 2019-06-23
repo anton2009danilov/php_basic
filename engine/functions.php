@@ -21,10 +21,14 @@ function prepareVariables ($page) {
                 'link' => '../gallery',
                 'name' => 'Галерея',
             ],
-            // 'api_catalog' => [
-            //     'link' => './?page=api_catalog',
-            //     'name' => 'api',
-            // ],
+            'api_catalog' => [
+                'link' => '../api_catalog',
+                'name' => 'api',
+            ],
+            'addlike' => [
+                'link' => '../addlike/1',
+                'name' => 'addlike',
+            ],
         ]
     );
 
@@ -44,16 +48,43 @@ function prepareVariables ($page) {
             ];
             break;
     
-        // case 'api_catalog':
+        case 'api_catalog':
     
-        //     $params = [
-        //         'title' => 'api',
-        //         'catalog' => ["Мишка", "Пони", "Крокодил"]
-        //     ];
+            $params = [
+                'title' => 'api',
+                'catalog' => ["Мишка", "Пони", "Крокодил"]
+            ];
     
-        //     echo json_encode($params, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
-        //     die();
-        //     break;
+            echo json_encode($params, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+            die();
+            break;
+
+        case 'addlike':
+            
+            // $id = (int)$_POST['id'];
+            $id = explode("/", $_SERVER['REQUEST_URI'])[2];
+
+            $db = @mysqli_connect("localhost", "root", "", "shop");
+            $update = mysqli_query($db, "UPDATE `gallery` SET `likes` = `likes` + 1 WHERE id = $id");
+            $result = mysqli_query($db, "SELECT * FROM `gallery` WHERE id = $id");
+            $card = mysqli_fetch_assoc($result);
+            $likes = $card['likes'];
+            
+            $response['result'] = $likes;
+            
+            // echo json_encode($response);
+
+            // addlike();
+            $params = [
+                'id' => $id,
+                'response' => $response
+            ];
+    
+
+            echo json_encode($response);
+            // echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+            die();
+            break;
         
         case 'gallery':
         
@@ -232,25 +263,18 @@ function update_gallery_database($file_name) {
     $location = './img/big';
     $size = filesize('./img/big/' . $file_name);
 
-        // var_dump($location);
-        // var_dump($name);
-        // var_dump($size);
 
-        // $insert = mysqli_query($db, "INSERT INTO `gallery` (`location`, `size`, `name`)
-        //     VALUES ($location, $size, $name)");
+    $query = "INSERT INTO `gallery` (`location`, `size`, `name`)
+        VALUES (?, ?, ?)";
+    $stmt = mysqli_prepare($db, $query);
 
+    mysqli_stmt_bind_param($stmt, "sss", $val1, $val2, $val3);
 
-        $query = "INSERT INTO `gallery` (`location`, `size`, `name`)
-            VALUES (?, ?, ?)";
-        $stmt = mysqli_prepare($db, $query);
+    $val1 = $location;
+    $val2 = $size;
+    $val3 = $file_name;
 
-        mysqli_stmt_bind_param($stmt, "sss", $val1, $val2, $val3);
-
-        $val1 = $location;
-        $val2 = $size;
-        $val3 = $file_name;
-
-        mysqli_stmt_execute($stmt);
+    mysqli_stmt_execute($stmt);
 
 }
 

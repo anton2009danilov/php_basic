@@ -4,6 +4,7 @@ DirectoryIndex index.php index.html
 RewriteEngine on
 
 RewriteCond %{REQUEST_URI} !(\.css|\.js|\.png|\.jpg|\.jpeg|\.gif)$ [NC]
+# RewriteCond %{REQUEST_URI} !(\.php)$ [NC]
 
 
 RewriteCond %{REQEST_FILENAME} !-f
