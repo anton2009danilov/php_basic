@@ -12,30 +12,12 @@
 
         img {
             padding: 1px;
-            margin: 5px;
+            margin: 2px;
             border: 1px solid pink;
         }
 
         .upload {
             color: #ff8989;
-        }
-
-        #new_img {
-            /* width: 0.1px;
-            height: 0.1px; */
-            /* opacity: 0; */
-            /* overflow: hidden; */
-            /* position: absolute; */
-            /* z-index: -1; */
-        }
-
-        a img {
-            transition: 1s;
-        }
-        a img:hover {
-            filter: brightness(1.1);
-            transform: scale(1.1);
-            transition-duration: .3s;
         }
 
         .upload_btn {
@@ -46,6 +28,23 @@
 
         .upload_btn:hover {
             color: #ff5959;
+        }
+
+        .card {
+            width: 160px;
+            margin: 2px;
+            transition: 1s;
+        }
+
+        .card:hover {
+            filter: brightness(1.1);
+            transform: scale(1.1);
+            transition-duration: .3s;
+        }
+
+        .description {
+
+            margin: ;
         }
 
     </style>
@@ -61,33 +60,5 @@
 </div>
 
 </body>
-
-<script>
-
-    $(document).ready(function(){
-        $(".action").on('click', function(){
-            let id = $("#likeButton").attr("data-id");
-           
-            console.log(id);
-            
-            $.ajax(
-                
-                {
-                url: "../addlike/" + id,
-                type: "POST",
-                dataType: "json",
-                data: {
-                    id: id
-                },
-                error: function() {console.log("ajax error");},
-                success: function(answer){
-                    $('#like').html(answer.result);
-                }
-            })
-        })
-    }
-)
-
-</script>
 
 </html>

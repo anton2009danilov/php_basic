@@ -1,9 +1,18 @@
-<h3>Карточка товара <?=$card['id']?></h3>
-<img width='500px' src="/img/big/<?=$card['name']?>" alt="Товар <?=$card['id']?>">
-<h5>Количество просмотров: <?=$card['views']?></h5>
-<h5>Понравилось: <span id = "like"><?=$card['likes']?></span></h5>
-<button class="action" id="likeButton" data-id="<?=$card['id']?>">Понравилось</button>
+<div class='d-flex'>
+    <div>
+        <img width='500px' src="/img/big/<?=$card['name']?>" alt="Товар <?=$card['id']?>">
+    </div>
+    <div class='d-flex flex-column description'>
+        <h3><?=$card['item_name']?></h3>
+        <h4>Цена: <?=$card['price']?> руб.</h4>
+        <h4 class='description__text'><?=$card['description']?></h4>
+        <h5>Количество просмотров: <?=$card['views']?></h5>
+        <h5>Понравилось: <span id = "like"><?=$card['likes']?></span></h5>
+        <button class="action" id="likeButton" data-id="<?=$card['id']?>">Понравилось</button>
+    </div>
 
+</div>
+<h4>Отзывы:</h4>
 <?foreach($feedback as $item):?>
     <div class="border border-success">
         <h5><?=$item['name']?>:</h5>
@@ -24,3 +33,32 @@
     <br>
     <input type="submit" name="ok" value="<?=$btn_text?>">
 </form>
+
+
+<script>
+
+    $(document).ready(function(){
+        $(".action").on('click', function(){
+            let id = $("#likeButton").attr("data-id");
+           
+            console.log(id);
+            
+            $.ajax(
+                
+                {
+                url: "../addlike/" + id,
+                type: "POST",
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                error: function() {console.log("ajax error");},
+                success: function(answer){
+                    $('#like').html(answer.result);
+                }
+            })
+        })
+    }
+)
+
+</script>

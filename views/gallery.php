@@ -3,8 +3,11 @@
     
     <ul class='d-flex flex-wrap justify-content-between'>
         <?foreach($gallery as $item):?>
-            <li class='figure'>
+            <li class='figure card'>
+                <h6><?=$item['item_name']?></h6>
+                <h6>Цена: <?=$item['price']?> руб.</h6>
                 <a href="/card/<?=$item['id']?>" target="_blank"><img src="/img/small/<?=$item['name'];?>" alt="<?=$item['name'];?>"></a>
+                <p><?=$item['description']?></p>
             </li>
         <?endforeach;?>
     </ul>

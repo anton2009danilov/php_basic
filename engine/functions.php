@@ -19,14 +19,26 @@ function prepareVariables ($page) {
                 'link' => '../../../gallery',
                 'name' => 'Галерея',
             ],
-            'api_catalog' => [
-                'link' => '../../../api_catalog',
-                'name' => 'api',
+            // 'api_catalog' => [
+            //     'link' => '../../../api_catalog',
+            //     'name' => 'api',
+            // ],
+            // 'addlike' => [
+            //     'link' => '../../../addlike/1',
+            //     'name' => 'addlike_item1',
+            // ],
+            'calculator1' => [
+                'link' => '../../../calculator1',
+                'name' => 'Калькулятор 1',
             ],
-            'addlike' => [
-                'link' => '../../../addlike/1',
-                'name' => 'addlike_item1',
+            'calculator2' => [
+                'link' => '../../../calculator2',
+                'name' => 'Калькулятор 2',
             ],
+            // 'math' => [
+            //     'link' => '../../../math',
+            //     'name' => 'math',
+            // ],
         ]
     );
 
@@ -36,6 +48,86 @@ function prepareVariables ($page) {
                 'title' => 'Main',
                 'nav' => $nav
             ];
+            break;
+
+        case 'calculator1':
+            
+            $params = [
+                'title' => 'calculator1',
+                'nav' => $nav,
+                'result' => $_SESSION['result'],
+                'operand1' => $_SESSION['operand1'],
+                'operand2' => $_SESSION['operand2'],
+                'operation' => $_SESSION['operation'],
+            ];
+            break;
+        
+        case 'calculator2':
+            $params = [
+                'title' => 'calculator2',
+                'nav' => $nav
+            ];
+            break;
+        
+        case 'math':
+            // die(var_dump($_POST));
+            $val1 = (int) $_POST['operand1'];
+            $val2 = (int) $_POST['operand2'];
+            $operation = $_POST['operation'];
+
+            switch($operation) {
+                case "+":
+                    $result = mathOperation($val1, $val2, 'add');
+                    break;
+                case "-":
+                    $result = mathOperation($val1, $val2, 'dim');
+                    break;
+                case "*":
+                    $result = mathOperation($val1, $val2, 'mult');
+                    break;
+                case "/":
+                    $result = mathOperation($val1, $val2, 'div');
+                    break;
+            }
+
+            $_SESSION['result'] = $result;
+            $_SESSION['operand1'] = $val1;
+            $_SESSION['operand2'] = $val2;
+            $_SESSION['operation'] = $operation;
+
+            header("Location: ../calculator1");
+            // $response['result'] = $result;
+            
+            // echo json_encode($response);
+            die();
+            break;
+
+        case 'math2':
+            // die(var_dump($_POST));
+            $val1 = (int) $_POST['operand1'];
+            $val2 = (int) $_POST['operand2'];
+            $operation = $_POST['operation'];
+
+            switch($operation) {
+                case "+":
+                    $result = mathOperation($val1, $val2, 'add');
+                    break;
+                case "-":
+                    $result = mathOperation($val1, $val2, 'dim');
+                    break;
+                case "*":
+                    $result = mathOperation($val1, $val2, 'mult');
+                    break;
+                case "/":
+                    $result = mathOperation($val1, $val2, 'div');
+                    break;
+            }
+
+            
+            $response['result'] = $result;
+            
+            echo json_encode($response);
+            die();
             break;
         
         case 'catalog':
@@ -85,7 +177,6 @@ function prepareVariables ($page) {
                 // if(!$result){
                 //     echo 'error insert feedback';
                 // }
-                // die(var_dump($result));
             }
             
             $message = explode("/", $_SERVER['REQUEST_URI'])[3];
@@ -112,16 +203,13 @@ function prepareVariables ($page) {
             break;
 
         case 'editfeedback':
-            // die(var_dump($_POST));
             
             $card_id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
             $feedback_id = (int)explode("/", $_SERVER['REQUEST_URI'])[3];
             $db = getDb();
             
-            // var_dump('edit');
             $sql = "UPDATE `feedback` SET `feedback`= '{$_POST['feedback']}', `name` = '{$_POST['name']}'
             WHERE id = $feedback_id";
-            // die(var_dump($sql));
             $result = executeQuery($sql);
             
             // $result = mysqli_query($db, "SELECT * FROM `feedback` WHERE 1");
@@ -170,13 +258,10 @@ function prepareVariables ($page) {
                         break;
                     case "EDIT":
                         $btn_text = 'Править';
-                        var_dump($id);
                         $action = 'editfeedback/' . $card['id'] . '/' . $feedback_id;
                         
                         $card_id = (int) explode("/", $_SERVER['REQUEST_URI'])[2];
                         $id = (int) explode("/", $_SERVER['REQUEST_URI'])[4];
-                        // die(var_dump($id));
-                        // $id = (int) explode("/", $_SERVER['REQUEST_URI'])[4];
                         $sql = "SELECT * FROM `feedback` WHERE id = $id";
                         $result = mysqli_query($db, $sql);
                         $row = mysqli_fetch_assoc($result);
@@ -188,7 +273,6 @@ function prepareVariables ($page) {
                     default:
                         $btn_text = 'Отправить';
                         $message = '';
-                        // var_dump($message);
                 }
             }
     
@@ -231,19 +315,18 @@ function getCard($id) {
 
 function load_new_img() {
     $db = getDb();
-    
     if($_POST['load']) {
-                 
+        
         $new_img = $_FILES['new_img'];
         $type = $new_img['type'];
         $name = $new_img['name'];
         $tmp_name = $new_img['tmp_name'];
-
+        
         if($size > 120000) {
             // header("Location: /gallery");    
             echo "Ошибка загрузки: превышен максимальный размер файла";
         } 
-
+        
         else if ($type !== 'image/jpeg' && $type !=='image/png' && $type !== 'image/gif') {
             // $error = "Ошибка загрузки: допускается только загрузка файлов формата jpeg, png, gif";
             echo "Ошибка загрузки: допускается только загрузка файлов формата jpeg, png, gif";
@@ -251,17 +334,13 @@ function load_new_img() {
         
         else {
             $path = str_replace('engine', 'public', __DIR__) . '/img/big/' . $name;
-            die(var_dump($path));
-            // die;
-
+            
             if(!move_uploaded_file($tmp_name, $path)){
-                    // $error ="Ошибка загрузки: неверно указано имя файла или директория загрузки";
-                    echo "Ошибка загрузки: неверно указано имя файла или директория загрузки";
-                } else {
-                    // die(var_dump($name));
+                // $error ="Ошибка загрузки: неверно указано имя файла или директория загрузки";
+                echo "Ошибка загрузки: неверно указано имя файла или директория загрузки";
+            } else {
                     update_gallery_database($name);
                     create_thumbnail("../public/img/big/$name", "../public/img/small/$name", 150, 150);
-                    // header("Location: /?page=gallery");
                     header("Location: /gallery");
                     die();
                 }
@@ -308,57 +387,50 @@ function renderMenu($params) {
 function init_gallery_database() {
     $db = getDb();
     $gallery = array_splice(scandir('./img/big'), 2);
-    // $path = str_replace('\engine', '\public\\', __DIR__);
     $path = './img/big';
 
     foreach ($gallery as $item) {
 
         $name = $item;
         
-        $location = $path . $name;
-        // die($location);
         $size = filesize('../public/img/big/' . $name);
         $file = file('../public/img/big/' . $name);
 
-        // $insert = mysqli_query($db, "INSERT INTO `gallery` (`location`, `size`, `name`)
-        //     VALUES ($location, $size, $name)");
-
-
-        $query = "INSERT INTO `gallery` (`location`, `size`, `name`)
-            VALUES (?, ?, ?)";
+        $query = "INSERT INTO `gallery` (`size`, `name`)
+            VALUES (?, ?)";
         
         $stmt = mysqli_prepare($db, $query);
 
-        mysqli_stmt_bind_param($stmt, "sss", $val1, $val2, $val3);
+        mysqli_stmt_bind_param($stmt, "ss", $val1, $val2);
 
-        $val1 = $location;
-        $val2 = $size;
-        $val3 = $name;
+        $val1 = $size;
+        $val2 = $name;
 
         mysqli_stmt_execute($stmt);
-
     }
-
 }
 
 function update_gallery_database($file_name) {
     
     $db =getDb();
-    $location = './img/big';
+    // $location = './img/big';
     $size = filesize('./img/big/' . $file_name);
 
-
-    $query = "INSERT INTO `gallery` (`location`, `size`, `name`)
-        VALUES (?, ?, ?)";
+    $query = "INSERT INTO `gallery` (`size`, `name`, `description`, `item_name`, `price`)
+        VALUES (?, ?, ?, ?, ?)";
+    
     $stmt = mysqli_prepare($db, $query);
-
-    mysqli_stmt_bind_param($stmt, "sss", $val1, $val2, $val3);
-
-    $val1 = $location;
-    $val2 = $size;
-    $val3 = $file_name;
-
+    
+    mysqli_stmt_bind_param($stmt, "sssss", $val1, $val2, $val3, $val4, $val5);
+    
+    $val1 = $size;
+    $val2 = $file_name;
+    $val3 = 'Новинка!' ;
+    $val4 = '';
+    $val5 = '300';
+    
     mysqli_stmt_execute($stmt);
+    // die(var_dump($query));
 
 }
 
