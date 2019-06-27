@@ -153,8 +153,8 @@ function prepareVariables ($page) {
 
             $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
             $db = getDb();
-            $update = mysqli_query($db, "UPDATE `gallery` SET `likes` = `likes` + 1 WHERE id = $id");
-            $result = mysqli_query($db, "SELECT * FROM `gallery` WHERE id = $id");
+            $update = executeQuery("UPDATE `gallery` SET `likes` = `likes` + 1 WHERE id = $id");
+            $result = executeQuery("SELECT * FROM `gallery` WHERE id = $id");
             $card = mysqli_fetch_assoc($result);
             $likes = $card['likes'];
             $response['result'] = $likes;
@@ -182,47 +182,35 @@ function prepareVariables ($page) {
             $message = explode("/", $_SERVER['REQUEST_URI'])[3];
             
             header("Location: ../card/$id/OK" );
-            // $result = mysqli_query($db, "SELECT * FROM `feedback` WHERE 1");
-
-            // die();
             break;
         
         case 'deletefeedback':
 
             $card_id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
             $feedback_id = (int)explode("/", $_SERVER['REQUEST_URI'])[3];
-            $db = getDb();
-            
             $sql = "DELETE FROM `feedback` WHERE id = $feedback_id";
             $result = executeQuery($sql);
 
-            $result = mysqli_query($db, "SELECT * FROM `feedback` WHERE 1");
-
             header("Location: ../../card/$card_id/DELETE" );
-            // die();
+
             break;
 
         case 'editfeedback':
             
             $card_id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
             $feedback_id = (int)explode("/", $_SERVER['REQUEST_URI'])[3];
-            $db = getDb();
-            
             $sql = "UPDATE `feedback` SET `feedback`= '{$_POST['feedback']}', `name` = '{$_POST['name']}'
             WHERE id = $feedback_id";
             $result = executeQuery($sql);
-            
-            // $result = mysqli_query($db, "SELECT * FROM `feedback` WHERE 1");
-
+           
             header("Location: ../../card/$card_id/EDITED" );
-            // die();
+
             break;
         
         case 'gallery':
         
             load_new_img();
     
-            // $gallery = mysqli_query($db, "SELECT * FROM `gallery` ORDER BY `views` DESC");
             $gallery = getGallery();
     
             $params = [
@@ -241,8 +229,9 @@ function prepareVariables ($page) {
             upd_views($card_id);
 
             //создать getFeedback()
-            $db = getDb();
-            $feedback = mysqli_query($db, "SELECT * FROM `feedback` WHERE `item_id` = $card_id");
+            // $db = getDb();
+            // $feedback = mysqli_query($db, "SELECT * FROM `feedback` WHERE `item_id` = $card_id");
+            $feedback = executeQuery("SELECT * FROM `feedback` WHERE `item_id` = $card_id");
             ///
             $str = explode("/", $_SERVER['REQUEST_URI'])[3];
             $btn_text = 'Отправить';
@@ -263,7 +252,7 @@ function prepareVariables ($page) {
                         $card_id = (int) explode("/", $_SERVER['REQUEST_URI'])[2];
                         $id = (int) explode("/", $_SERVER['REQUEST_URI'])[4];
                         $sql = "SELECT * FROM `feedback` WHERE id = $id";
-                        $result = mysqli_query($db, $sql);
+                        $result = executeQuery($sql);
                         $row = mysqli_fetch_assoc($result);
                         
                         break;
@@ -385,7 +374,7 @@ function renderMenu($params) {
     }
 
 function init_gallery_database() {
-    $db = getDb();
+    // $db = getDb();
     $gallery = array_splice(scandir('./img/big'), 2);
     $path = './img/big';
 
@@ -396,17 +385,10 @@ function init_gallery_database() {
         $size = filesize('../public/img/big/' . $name);
         $file = file('../public/img/big/' . $name);
 
-        $query = "INSERT INTO `gallery` (`size`, `name`)
-            VALUES (?, ?)";
-        
-        $stmt = mysqli_prepare($db, $query);
+        $query = "INSERT INTO `gallery` (`size`, `name`) VALUES ({$size}, {$name})";
 
-        mysqli_stmt_bind_param($stmt, "ss", $val1, $val2);
+        executeQuery($query);
 
-        $val1 = $size;
-        $val2 = $name;
-
-        mysqli_stmt_execute($stmt);
     }
 }
 
@@ -430,14 +412,10 @@ function update_gallery_database($file_name) {
     $val5 = '300';
     
     mysqli_stmt_execute($stmt);
-    // die(var_dump($query));
 
 }
 
 function upd_views($id) {
-    $db = getDb();
     $update = "UPDATE `gallery` SET `views` = `views` + 1 WHERE id = $id";
-    $stmt = mysqli_prepare($db, $update);
-    mysqli_stmt_execute($stmt);
-    // $stmt = mysqli_prepare($db, $query);
+    executeQuery($update);
 }
