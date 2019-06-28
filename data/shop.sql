@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 25 2019 г., 01:41
+-- Время создания: Июн 28 2019 г., 05:52
 -- Версия сервера: 5.7.23
 -- Версия PHP: 7.1.22
 
@@ -25,6 +25,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `basket`
+--
+
+CREATE TABLE `basket` (
+  `id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `user_id` text NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `basket`
+--
+
+INSERT INTO `basket` (`id`, `item_id`, `user_id`, `quantity`) VALUES
+(2, 4, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 2),
+(3, 3, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 1),
+(5, 2, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 2),
+(6, 5, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 1),
+(14, 2, '1', 4),
+(20, 3, '1', 2);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `feedback`
 --
 
@@ -42,9 +67,12 @@ CREATE TABLE `feedback` (
 INSERT INTO `feedback` (`id`, `item_id`, `name`, `feedback`) VALUES
 (27, 1, 'Антон', 'Класс!'),
 (29, 4, 'ЗЕЛЕНЫЙ ЧЕЛОВЕЧЕК', 'Какой зелёный, нравится'),
-(30, 3, 'Антон', 'Привет, Единорожка!'),
 (31, 3, 'Лунтик', 'Хочу такого друга )'),
-(33, 2, 'Антон', 'Мишка-Милашка!!!');
+(33, 2, 'Антон', 'Мишка-Милашка!!!'),
+(36, 3, 'Антон', 'Привет, Единорожка! Скоро поедешь ко мне!\r\n\r\n'),
+(38, 4, 'Тоха', 'Зубастик. Очень понравился.'),
+(40, 6, 'Антон', 'Мне повар больше понравился. Этот какой-то мелкий'),
+(41, 6, 'Миша', 'Мой любимый Пикачу!');
 
 -- --------------------------------------------------------
 
@@ -69,15 +97,41 @@ CREATE TABLE `gallery` (
 
 INSERT INTO `gallery` (`id`, `size`, `name`, `views`, `likes`, `description`, `item_name`, `price`) VALUES
 (1, 54519, 'frog.jpg', 22, 21, 'Весёлая, зелёная, квакает. Лягуха!', 'Лягушка', 150),
-(2, 88369, 'item1.jpg', 230, 58, 'Белый, мягкий, д-о-о-о-брый. Медведь!', 'Белый медведь', 200),
-(3, 16057, 'item2.jpg', 125, 2, 'Миленький единорожка. Любит играть!', 'Белый единорожка', 190),
-(4, 19954, 'item3.jpg', 140, 24, 'Маленький мягонький крокодильчик. Не кусается!', 'Крокодильчик', 150),
-(5, 102459, 'pikachu-cook.jpg', 4, 0, 'Знаменитый Повар Пикачу. Готовит быстро и мягко!', 'Повар Пикачу', 220),
-(6, 33226, 'pikachu-detective.jpg', 39, 9, 'Гениальный Детектив Пикачу. Любит загадки и головоломки!', 'Детектив Пикачу', 250);
+(2, 88369, 'item1.jpg', 234, 59, 'Белый, мягкий, д-о-о-о-брый. Медведь!', 'Белый медведь', 200),
+(3, 16057, 'item2.jpg', 175, 25, 'Миленький единорожка. Любит играть!', 'Белый единорожка', 190),
+(4, 19954, 'item3.jpg', 205, 28, 'Маленький мягонький крокодильчик. Не кусается!', 'Крокодильчик', 150),
+(5, 102459, 'pikachu-cook.jpg', 12, 6, 'Знаменитый Повар Пикачу. Готовит быстро и мягко!', 'Повар Пикачу', 220),
+(6, 33226, 'pikachu-detective.jpg', 67, 14, 'Гениальный Детектив Пикачу. Любит загадки и головоломки!', 'Детектив Пикачу', 250);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `login` text NOT NULL,
+  `pass` text NOT NULL,
+  `hash` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `users`
+--
+
+INSERT INTO `users` (`id`, `login`, `pass`, `hash`) VALUES
+(1, 'admin', '$2y$10$y78FPsfAJdWU0.93smb87O3flh3aFLox424I1SLeJ/nZitrzQFV1K', '72047995d1553c4877bd8.15807765');
 
 --
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `basket`
+--
+ALTER TABLE `basket`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `feedback`
@@ -92,20 +146,38 @@ ALTER TABLE `gallery`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
+
+--
+-- AUTO_INCREMENT для таблицы `basket`
+--
+ALTER TABLE `basket`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT для таблицы `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT для таблицы `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
