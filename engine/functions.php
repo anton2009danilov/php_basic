@@ -15,16 +15,11 @@ function prepareVariables ($page) {
         $_SESSION['user'] = $user;
     }
 
-    
-
     if ($_SESSION['user'] == 'guest') {
         $allow = true;
         $user = 'guest';
     }
 
-   
-
-    // var_dump($allow);
     $params = [];
     $row = [];
     $nav = renderNav();
@@ -151,10 +146,32 @@ function prepareVariables ($page) {
             break;
         
         case 'add_to_basket':
-        $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
+            $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
             if (isset($_SESSION['id'])||isset($_SESSION['user'])){
                 // add_to_basket($id);
                 $response['result'] = add_to_basket($id);
+                echo json_encode($response);
+                die();
+            } else {
+                $response['error'] = 'Ошибка: для совершения покупок необходимо
+                 войти на сайт';    
+                echo json_encode($response);
+                die();
+            }
+            // $response['result'] = 'ok';
+            // $response['id'] = $id;
+            // $response['SESSION_user'] = $_SESSION['user'];
+            
+            echo json_encode($response);
+
+            die();
+            break;
+        
+        case 'delete_from_basket':
+            $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
+            if (isset($_SESSION['id'])||isset($_SESSION['user'])){
+                // add_to_basket($id);
+                $response['result'] = delete_from_basket($id);
                 echo json_encode($response);
                 die();
             } else {

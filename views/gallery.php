@@ -47,7 +47,6 @@
                     if(answer['error']) {
                         alert(answer['error']);
                     }
-                    $('#like').html(answer.result);
                 }
             })
         })

@@ -1,6 +1,6 @@
 <?
 
-function add_to_basket($id){
+function add_to_basket($id) {
     $item_id = $id;
     // $user_id = $_SESSION['user'];
     if(isset($_SESSION['id'])){
@@ -28,23 +28,46 @@ function add_to_basket($id){
     }
 }
 
+function delete_from_basket($id) {
+    $item_id = $id;
+    if (isset($_SESSION['id'])){
+        $user_id = $_SESSION['id'];
+    } else {
+        $user_id = session_id();
+    }
+
+    $db = getDb();
+
+    $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND
+               `user_id` = '{$user_id}'";
+    
+    $result = mysqli_fetch_assoc(executeQuery($select));
+    // return($result['quantity']);
+    // return($result['id']);
+    
+    if($result['quantity'] == 1) {
+        $insert = "DELETE FROM `basket` WHERE id = {$result['id']}";
+        executeQuery($insert);
+    } else {
+        $update = "UPDATE `basket` SET `quantity` = (`quantity` - 1) WHERE id = {$result['id']}";
+        executeQuery($update);
+        return($result['quantity'] - 1);
+    }
+
+}
+
 
 function getBasket() {
-    // die(var_dump(session_id()));
     if (isset($_SESSION['id'])) 
         $user_id = $_SESSION['id'];
     else 
         $user_id = session_id();
     
-    // die(var_dump($user_id));
-    // die(var_dump($user_id));
     $sql = "SELECT `basket`.`item_id`, `basket`.`user_id`, `basket`.`quantity`,
             `gallery`.`item_name`, `gallery`.`price`
             FROM `basket`
             LEFT JOIN `gallery` ON `basket`.`item_id`=`gallery`.`id`
             WHERE `basket`.`user_id`={$user_id}";
     $result = executeQuery($sql);
-    // $result = mysqli_fetch_assoc(executeQuery($sql));
-    // die(var_dump($result));
     return $result;
 }
