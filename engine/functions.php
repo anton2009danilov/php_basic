@@ -2,29 +2,54 @@
 
 function prepareVariables ($page) {
 
+    $allow = false;
+
+    if (is_auth()) {
+        $allow = true;
+        $user = get_user();
+    }
+
+    if (isset($_POST['guest'])) {
+        $allow = true;
+        $user = get_user();
+        $_SESSION['user'] = $user;
+    }
+
+    
+
+    if ($_SESSION['user'] == 'guest') {
+        $allow = true;
+        $user = 'guest';
+    }
+
+   
+
+    // var_dump($allow);
     $params = [];
     $row = [];
     $nav = renderNav();
+    // $auth = renderTemplate('auth');
     
-    $auth = renderTemplate('auth');
-    
-    // die(var_dump($auth));
 
     switch ($page) {
         case 'index':
             $params = [
                 'title' => 'Main',
                 'nav' => $nav,
-                'auth' => $auth,
+                // 'auth' => $auth,
+                'allow' => $allow,
+                'user' => $user,
             ];
             break;
-
+        
         case 'calculator1':
             
             $params = [
                 'title' => 'calculator1',
                 'nav' => $nav,
-                'auth' => $auth,
+                // 'auth' => $auth,
+                'allow' => $allow,
+                'user' => $user,
                 'result' => $_SESSION['result'],
                 'operand1' => $_SESSION['operand1'],
                 'operand2' => $_SESSION['operand2'],
@@ -36,7 +61,9 @@ function prepareVariables ($page) {
             $params = [
                 'title' => 'calculator2',
                 'nav' => $nav,
-                'auth' => $auth,
+                // 'auth' => $auth,
+                'allow' => $allow,
+                'user' => $user,
             ];
             break;
         
@@ -105,7 +132,9 @@ function prepareVariables ($page) {
             $params = [
                 'title' => 'Каталог',
                 'nav' => $nav,
-                'auth' => $auth,
+                // 'auth' => $auth,
+                'allow' => $allow,
+                'user' => $user,
                 'catalog' => ["Мишка", "Пони", "Крокодил"],
             ];
             break;
@@ -120,11 +149,32 @@ function prepareVariables ($page) {
             echo json_encode($params, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
             die();
             break;
+        
+        case 'add_to_basket':
+        $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
+            if (isset($_SESSION['id'])||isset($_SESSION['user'])){
+                // add_to_basket($id);
+                $response['result'] = add_to_basket($id);
+                echo json_encode($response);
+                die();
+            } else {
+                $response['error'] = 'Ошибка: для совершения покупок необходимо
+                 войти на сайт';    
+                echo json_encode($response);
+                die();
+            }
+            $response['result'] = 'ok';
+            $response['id'] = $id;
+            $response['SESSION_user'] = $_SESSION['user'];
+            
+            echo json_encode($response);
+
+            die();
+            break;
 
         case 'addlike':
 
             $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
-            $db = getDb();
             $update = executeQuery("UPDATE `gallery` SET `likes` = `likes` + 1 WHERE id = $id");
             $result = executeQuery("SELECT * FROM `gallery` WHERE id = $id");
             $card = mysqli_fetch_assoc($result);
@@ -138,10 +188,9 @@ function prepareVariables ($page) {
         case 'addfeedback':
 
             $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
-            $db = getDb();
             if (isset($_POST['ok'])) {
-                $name = strip_tags(htmlspecialchars(mysqli_real_escape_string($db, $_POST['name'])));
-                $feedback = strip_tags(htmlspecialchars(mysqli_real_escape_string($db, $_POST['feedback'])));
+                $name = real_escape($_POST['name']);
+                $feedback = real_escape($_POST['feedback']);
                 $sql = "INSERT INTO `feedback` (`item_id`, `name`, `feedback`)
                         VALUES ('$id','{$name}', '{$feedback}')";
                 $result = executeQuery($sql);
@@ -188,11 +237,25 @@ function prepareVariables ($page) {
             $params = [
                 'title' => 'Галерея',
                 'nav' => $nav,
-                'auth' => $auth,
+                // 'auth' => $auth,
+                'allow' => $allow,
+                'user' => $user,
                 'gallery' => $gallery,
             ];
             break;
         
+        case 'basket':
+            $basket = getBasket();
+            $params = [
+                'title' => 'Корзина',
+                'nav' => $nav,
+                // 'auth' => $auth,
+                'allow' => $allow,
+                'user' => $user,
+                'basket' => $basket,
+            ];
+            break;
+
         case 'card':
             
             $card_id = explode("/", $_SERVER['REQUEST_URI'])[2];
@@ -239,10 +302,12 @@ function prepareVariables ($page) {
             }
     
             $params = [
-                'title' => '№' . $id,
+                'title' => '№' . $card_id,
                 'id' => $id,
                 'nav' => $nav,
-                'auth' => $auth,
+                // 'auth' => $auth,
+                'allow' => $allow,
+                'user' => $user,
                 'card' => $card,
                 'feedback' => $feedback,
                 'message' => $message,
@@ -316,9 +381,9 @@ function render($page, array $params = []) {
         'content'=>renderTemplate($page, $params),
         'title'=> $params['title'],
         'nav' => $params['nav'],
-        'auth' => $params['auth'],
-        // 'allow' => $params['allow']
-        
+        // 'auth' => $params['auth'],
+        'allow' => $params['allow'],
+        'user' => $params['user'],
     ]);
     return $content;
 }
@@ -365,14 +430,6 @@ function renderNav() {
                 'link' => '../../../gallery',
                 'name' => 'Галерея',
             ],
-            // 'api_catalog' => [
-            //     'link' => '../../../api_catalog',
-            //     'name' => 'api',
-            // ],
-            // 'addlike' => [
-            //     'link' => '../../../addlike/1',
-            //     'name' => 'addlike_item1',
-            // ],
             'calculator1' => [
                 'link' => '../../../calculator1',
                 'name' => 'Калькулятор 1',
@@ -381,10 +438,10 @@ function renderNav() {
                 'link' => '../../../calculator2',
                 'name' => 'Калькулятор 2',
             ],
-            // 'math' => [
-            //     'link' => '../../../math',
-            //     'name' => 'math',
-            // ],
+            'basket' => [
+                'link' => '../../../basket',
+                'name' => 'Корзина',
+            ],
         ]
     );
     

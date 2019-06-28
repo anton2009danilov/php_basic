@@ -8,7 +8,8 @@
         <h4 class='description__text'><?=$card['description']?></h4>
         <h5>Количество просмотров: <?=$card['views']?></h5>
         <h5>Понравилось: <span id = "like"><?=$card['likes']?></span></h5>
-        <button class="action" id="likeButton" data-id="<?=$card['id']?>">Понравилось</button>
+        <button class="addlike" id="likeButton" data-id="<?=$card['id']?>">Понравилось</button>
+        <button class="buy" id="buyButton" data-id="<?=$card['id']?>">Купить</button>
     </div>
 
 </div>
@@ -38,11 +39,9 @@
 <script>
 
     $(document).ready(function(){
-        $(".action").on('click', function(){
+        $(".addlike").on('click', function(){
             let id = $("#likeButton").attr("data-id");
            
-            console.log(id);
-            
             $.ajax(
                 
                 {
@@ -54,6 +53,31 @@
                 },
                 error: function() {console.log("ajax error");},
                 success: function(answer){
+                    $('#like').html(answer.result);
+                }
+            })
+        })
+
+        $(".buy").on('click', function(){
+            let id = $("#buyButton").attr("data-id");
+           
+            // console.log(id);
+            
+            $.ajax(
+                
+                {
+                url: "../add_to_basket/" + id,
+                type: "POST",
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                error: function() {console.log("ajax error");},
+                success: function(answer){
+                    console.log(answer);
+                    if(answer['error']) {
+                        alert(answer['error']);
+                    }
                     $('#like').html(answer.result);
                 }
             })

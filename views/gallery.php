@@ -7,7 +7,8 @@
                 <h6><?=$item['item_name']?></h6>
                 <h6>Цена: <?=$item['price']?> руб.</h6>
                 <a href="/card/<?=$item['id']?>" target="_blank"><img src="/img/small/<?=$item['name'];?>" alt="<?=$item['name'];?>"></a>
-                <p><?=$item['description']?></p>
+                <button class="buy" id="<?=$item['id']?>_buyButton" data-id="<?=$item['id']?>">Купить</button>
+                <p class='card__description'><?=$item['description']?></p>
             </li>
         <?endforeach;?>
     </ul>
@@ -19,3 +20,38 @@
     </form>
 
 </div>
+
+
+<script>
+
+    $(document).ready(function(){
+        $(".buy").on('click', function(event){
+            // alert(event.target.id);
+            // let id = $("#buyButton").attr("data-id");
+            let id = parseInt(event.target.id);
+            
+            console.log(id);
+            
+            $.ajax(
+                
+                {
+                url: "../add_to_basket/" + id,
+                type: "POST",
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                error: function() {console.log("ajax error");},
+                success: function(answer){
+                    console.log(answer);
+                    if(answer['error']) {
+                        alert(answer['error']);
+                    }
+                    $('#like').html(answer.result);
+                }
+            })
+        })
+    }
+)
+
+</script>

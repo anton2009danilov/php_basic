@@ -32,7 +32,8 @@
 
         .card {
             width: 160px;
-            margin: 2px;
+            /* width: 200px; */
+            margin: 10px 2px;
             transition: 1s;
         }
 
@@ -42,13 +43,17 @@
             transition-duration: .3s;
         }
 
-        .description {
-
-            margin: ;
+        .card__description {
+            /* height: 80px; */
         }
 
         .wrapper {
             margin-top: 10px;
+        }
+        .auth{
+            border-bottom: solid 1px pink;
+            margin: 20px;
+            padding: 20px;
         }
 
     </style>
@@ -59,7 +64,31 @@
 <? echo $nav?>
 
 <div class="container wrapper">
-    <? echo $auth?>
+    <!-- <? echo $auth?> -->
+    <div class="auth">
+        <?if(!$allow):?>
+            <h3>Авторизация</h3>
+            <form method="post" action="/">
+                <input type="text" name="login" placeholder="Логин">
+                Save? <input type="checkbox" name="save">
+                <input type="password" name="pass" placeholder="Пароль">
+                <input type="submit" name="send">
+            </form>
+            <br>
+            
+            <form method="post" action="/">
+                <input type="submit" name="guest" value="Войти как Гость">
+            </form>
+            
+            <?if($auth_error):?>
+                <p>Ошибка авторизации</p>
+            <?endif?>
+        <?else:?>
+            <h3>Добро пожаловать, <?=$user?>! <a href="?logout">[Выход]</a></h3>
+        <?endif;?>
+    </div>
+
+
     
     <?=$content?>
 </div>
