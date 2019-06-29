@@ -8,19 +8,27 @@ function add_to_basket($id) {
     } else {
         $session = session_id();
     }
+    
     // return($item_id);
-    $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND
-               `user_id` = '{$user_id}'";
+    if($user_id) {
+        $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND
+                `user_id` = '{$user_id}'";
+    } else {
+        $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND
+                `user_id` = '{$session}'";
+    }
     
     $result = mysqli_fetch_assoc(executeQuery($select));
     
-    
-
     if(!$result) {
-        $insert = "INSERT INTO `basket` (`item_id`, `user_id`, `quantity`, `session`)
-                   VALUES ({$item_id}, '{$user_id}', 1, '{$session}')";
+        if(!$user_id) {
+            $insert = "INSERT INTO `basket` (`item_id`, `user_id`, `quantity`, `session`)
+                    VALUES ({$item_id}, NULL, 1, '{$session}')";
+        } else {
+            $insert = "INSERT INTO `basket` (`item_id`, `user_id`, `quantity`, `session`)
+                    VALUES ({$item_id}, '{$user_id}', 1, '{$session}')";
+        }
         executeQuery($insert);
-        // return($id);
         
     } else {
         $update = "UPDATE `basket` SET `quantity` = (`quantity` + 1) WHERE id = {$result['id']}";

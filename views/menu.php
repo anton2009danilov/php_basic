@@ -5,7 +5,7 @@
             <a class= 'nav-link active text-light' href = '<?=$item['link']?>'>
                 <?=$item['name']?>
                 <?if($item['cart']):?>
-                    <?if(!$user=='guest'):?>
+                    <?if(!$_SESSION['user']):?>
                         <span id="counter">[ <?=getTotalQuantity(($_SESSION['id']))?> ]</span>
                     <?else:?>
                         <span id="counter">[ <?=getTotalQuantity(session_id())?> ]</span>
