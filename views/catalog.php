@@ -12,7 +12,7 @@
             </li>
         <?endforeach;?>
     </ul>
-        <?if($user='admin'&&$allow):?>
+        <?if($user === 'admin' && $allow):?>
             <form method="post" enctype="multipart/form-data">
                 <!-- <label for="new_img">Выберите файл</label> -->
                 <input id="new_img" class="upload" type="file" name="new_img">

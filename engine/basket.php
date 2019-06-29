@@ -9,6 +9,9 @@ function add_to_basket($id) {
         $session = session_id();
     }
     
+    
+    
+
     if($user_id) {
         $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND `user_id` = '{$user_id}'";
 
@@ -16,23 +19,26 @@ function add_to_basket($id) {
 
         $insert = "INSERT INTO `basket` (`item_id`, `user_id`, `quantity`, `session`)
                    VALUES ({$item_id}, '{$user_id}', 1, '{$session}')";
-        $update = "UPDATE `basket` SET `quantity` = (`quantity` + 1) WHERE id = {$result['id']}";
+        
                 
     } else {
+        
         $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND
                 `session` = '{$session}'";
-        $result = mysqli_fetch_assoc(executeQuery($select))['session'];
-
+        $result = mysqli_fetch_assoc(executeQuery($select));
+        
         $insert = "INSERT INTO `basket` (`item_id`, `user_id`, `quantity`, `session`)
                    VALUES ({$item_id}, NULL, 1, '{$session}')";
-
-        $update = "UPDATE `basket` SET `quantity` = (`quantity` + 1) WHERE `session` = '{$result}'";
     }
+
+    
     
     if(!$result) {
         executeQuery($insert);
     } else {
+        $update = "UPDATE `basket` SET `quantity` = (`quantity` + 1) WHERE id = {$result['id']}";
         executeQuery($update);
+
     }
 
     
@@ -40,9 +46,6 @@ function add_to_basket($id) {
         return $response['total_quantity'] = getTotalQuantity($user_id);
     else
         return $response['total_quantity'] = getTotalQuantity($session);
-    
-
-
     
 }
 
@@ -81,7 +84,7 @@ function delete_from_basket($id) {
 function getBasket() {
     if (isset($_SESSION['id'])) 
         $user_id = $_SESSION['id'];
-    else 
+    else if($_SESSION['user'] === 'guest')
         $user_id = session_id();
     
 
@@ -90,6 +93,7 @@ function getBasket() {
             FROM `basket`
             LEFT JOIN `gallery` ON `basket`.`item_id`=`gallery`.`id`
             WHERE `basket`.`user_id`='{$user_id}' OR `basket`.`session` = '{$user_id}'";
+
     $result = executeQuery($sql);
 
     return $result;

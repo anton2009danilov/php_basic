@@ -29,11 +29,11 @@ function prepareVariables ($page) {
 
     switch ($page) {
         case 'index':
-
             $params = [
                 'title' => 'Main',
                 'nav' => $nav,
                 // 'auth' => $auth,
+                // 'auth_error' => $auth_error,
                 'allow' => $allow,
                 'user' => $user,
             ];
@@ -133,8 +133,7 @@ function prepareVariables ($page) {
                 echo json_encode($response);
                 die();
             } else {
-                $response['error'] = 'Ошибка: для совершения покупок необходимо
-                 войти на сайт';    
+                $response['error'] = 'Ошибка: для совершения покупок необходимо войти на сайт';    
                 echo json_encode($response);
                 die();
             }
@@ -242,7 +241,11 @@ function prepareVariables ($page) {
             break;
         
         case 'basket':
-            $basket = getBasket();
+            if($_SESSION['id']||$_SESSION['user'] === 'guest')
+                $basket = getBasket();
+            else 
+                $basket = [];
+
             $params = [
                 'title' => 'Корзина',
                 'nav' => $nav,
@@ -382,6 +385,7 @@ function render($page, array $params = []) {
         // 'auth' => $params['auth'],
         'allow' => $params['allow'],
         'user' => $params['user'],
+        // 'auth_error' => $params['auth_error']
     ]);
     return $content;
 }
@@ -414,6 +418,14 @@ function renderMenu($params) {
 }
 
 function renderNav() {
+    // if($_SESSION['user']){
+        $cart = [
+            'link' => '../../../basket',
+            'name' => 'Корзина',
+            'cart' => true,
+        ];
+    // }
+
     return renderMenu(
         [
             'index' => [
@@ -432,12 +444,7 @@ function renderNav() {
                 'link' => '../../../calculator2',
                 'name' => 'Калькулятор 2',
             ],
-            'basket' => [
-                'link' => '../../../basket',
-                'name' => 'Корзина',
-                'cart' => true,
-                // 'user' => $user
-            ],
+            'basket' => $cart
             ]
         );
     }
