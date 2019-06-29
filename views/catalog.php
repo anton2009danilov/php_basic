@@ -12,13 +12,13 @@
             </li>
         <?endforeach;?>
     </ul>
-
-        <form method="post" enctype="multipart/form-data">
-            <!-- <label for="new_img">Выберите файл</label> -->
-            <input id="new_img" class="upload" type="file" name="new_img">
-            <input class="upload_btn" type="submit" name="load" value="Загрузить">
-        </form>
-    
+        <?if($user='admin'&&$allow):?>
+            <form method="post" enctype="multipart/form-data">
+                <!-- <label for="new_img">Выберите файл</label> -->
+                <input id="new_img" class="upload" type="file" name="new_img">
+                <input class="upload_btn" type="submit" name="load" value="Загрузить">
+            </form>
+        <?endif;?>
 </div>
 
 
@@ -26,10 +26,8 @@
 
     $(document).ready(function(){
         $(".buy").on('click', function(event){
-            // alert(event.target.id);
-            // let id = $("#buyButton").attr("data-id");
-            let id = parseInt(event.target.id);
             
+            let id = parseInt(event.target.id);
             console.log(id);
             
             $.ajax(
@@ -48,7 +46,7 @@
                         alert(answer['error']);
                     }
 
-                    $("#counter").html(`[ ${answer['result']} ]`);
+                    $("#counter").html(`[ ${answer['result'] + 1} ]`);
 
                 }
             })

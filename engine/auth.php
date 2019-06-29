@@ -29,7 +29,6 @@
                 $_SESSION['id'] = $id;
             }
         }
-
         return isset($_SESSION['login']) ? true : false;
     }
 

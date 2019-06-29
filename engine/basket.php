@@ -9,29 +9,30 @@ function add_to_basket($id) {
         $session = session_id();
     }
     // return($item_id);
-    
     $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND
                `user_id` = '{$user_id}'";
     
     $result = mysqli_fetch_assoc(executeQuery($select));
     
     
-    
+
     if(!$result) {
         $insert = "INSERT INTO `basket` (`item_id`, `user_id`, `quantity`, `session`)
-                   VALUES ({$item_id}, {$user_id}, 1, '{$session}')";
+                   VALUES ({$item_id}, '{$user_id}', 1, '{$session}')";
         executeQuery($insert);
-
+        // return($id);
+        
     } else {
         $update = "UPDATE `basket` SET `quantity` = (`quantity` + 1) WHERE id = {$result['id']}";
         executeQuery($update);
     }
 
+    
     if($user_id)
-        return $response['total_quantity'] = getTotalQuantity($user_id) - 1;
+    return $response['total_quantity'] = getTotalQuantity($user_id) - 1;
     else
-        return $response['total_quantity'] = getTotalQuantity($session) - 1;
-
+    return $response['total_quantity'] = getTotalQuantity($session) - 1;
+    
 
 
     
@@ -85,18 +86,22 @@ function getBasket() {
 }
 
 function getTotalQuantity($user_id) {
-
-    if(is_numeric($user_id)) {
-        $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `user_id` = {$user_id}";
-    } else {
-        $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `session` = '{$user_id}'";
+    if(!is_null($user_id)) {
+        
+        if(is_numeric($user_id)) {
+            $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `user_id` = '{$user_id}'";
+        } else {
+            $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `session` = '{$user_id}'";
+        }
+        $total = mysqli_fetch_assoc(executeQuery($sql))['total'];
     }
+    
+    
+    // return mysqli_fetch_assoc(executeQuery($sql));
+    
+    if(is_null($total)) {
+        return '0';
+    }
+    return $total;
 
-    // $sql = "SELECT SUM(`quantity`) FROM `basket` WHERE `user_id` = {$user_id}";
-    // return executeQuery($sql);
-    $result = executeQuery($sql);
-
-    if(!mysqli_fetch_assoc($result)['total'])
-        return 0;
-    return mysqli_fetch_assoc($result)['total'];
 }

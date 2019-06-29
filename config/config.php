@@ -15,8 +15,9 @@ include_once '../engine/log.php';
 include_once '../engine/resize.php';
 include_once '../engine/mathOperation.php';
 
-include "../engine/auth.php";
+include_once "../engine/auth.php";
 include_once '../engine/basket.php';
+include_once '../engine/user.php';
 // include_once '../engine/addlike.php';
 
 

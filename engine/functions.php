@@ -410,7 +410,7 @@ function renderTemplate($page, array $params = []) {
 function renderMenu($params) {
     
     return renderTemplate('menu', $params);
-    
+
 }
 
 function renderNav() {
@@ -435,7 +435,8 @@ function renderNav() {
             'basket' => [
                 'link' => '../../../basket',
                 'name' => 'Корзина',
-                'cart' => true
+                'cart' => true,
+                // 'user' => $user
             ],
             ]
         );
