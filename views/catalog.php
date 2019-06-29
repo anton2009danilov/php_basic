@@ -46,7 +46,7 @@
                         alert(answer['error']);
                     }
 
-                    $("#counter").html(`[ ${answer['result'] + 1} ]`);
+                    $("#counter").html(`[ ${parseInt(answer['result'])} ]`);
 
                 }
             })
