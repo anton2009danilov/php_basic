@@ -47,6 +47,9 @@
                     if(answer['error']) {
                         alert(answer['error']);
                     }
+
+                    $("#counter").html(`[ ${answer['result']} ]`);
+
                 }
             })
         })

@@ -21,10 +21,20 @@ function add_to_basket($id) {
         $insert = "INSERT INTO `basket` (`item_id`, `user_id`, `quantity`, `session`)
                    VALUES ({$item_id}, {$user_id}, 1, '{$session}')";
         executeQuery($insert);
+
     } else {
         $update = "UPDATE `basket` SET `quantity` = (`quantity` + 1) WHERE id = {$result['id']}";
         executeQuery($update);
     }
+
+    if($user_id)
+        return $response['total_quantity'] = getTotalQuantity($user_id) - 1;
+    else
+        return $response['total_quantity'] = getTotalQuantity($session) - 1;
+
+
+
+    
 }
 
 function delete_from_basket($id) {
