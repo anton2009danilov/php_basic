@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 28 2019 г., 21:05
+-- Время создания: Июн 29 2019 г., 22:07
 -- Версия сервера: 5.7.23
 -- Версия PHP: 7.1.22
 
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `basket` (
   `id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `session` text NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -41,9 +41,11 @@ CREATE TABLE `basket` (
 --
 
 INSERT INTO `basket` (`id`, `item_id`, `user_id`, `session`, `quantity`) VALUES
-(21, 2, 1, '', 3),
-(23, 4, 1, '', 2),
-(24, 3, 1, '', 1);
+(21, 2, 1, '', 17),
+(24, 3, 1, '', 5),
+(25, 4, 1, '', 5),
+(26, 5, 1, '', 1),
+(48, 2, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 6);
 
 -- --------------------------------------------------------
 
@@ -157,7 +159,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `basket`
 --
 ALTER TABLE `basket`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT для таблицы `feedback`
