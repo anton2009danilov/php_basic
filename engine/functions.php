@@ -1,33 +1,35 @@
 <?php
 
 function prepareVariables ($page) {
-
+    
     $allow = false;
-
+    
     if (is_auth()) {
         $allow = true;
         $user = get_user();
     }
-
+    
     if (isset($_POST['guest'])) {
         $allow = true;
         $user = get_user();
         $_SESSION['user'] = $user;
     }
-
+    
     if ($_SESSION['user'] == 'guest') {
         $allow = true;
         $user = 'guest';
     }
-
+    
     $params = [];
     $row = [];
+    
     $nav = renderNav();
     // $auth = renderTemplate('auth');
     
 
     switch ($page) {
         case 'index':
+
             $params = [
                 'title' => 'Main',
                 'nav' => $nav,
@@ -372,6 +374,7 @@ function load_new_img() {
 }
 
 function render($page, array $params = []) {
+
     $content = renderTemplate(LAYOUTS_DIR . 'main', [
         'content'=>renderTemplate($page, $params),
         'title'=> $params['title'],
@@ -385,7 +388,7 @@ function render($page, array $params = []) {
 
 function renderTemplate($page, array $params = []) {
     ob_start();
-
+    
     if (!is_null($params)) {
         extract($params);
         // foreach ($params as $key => $value) {
@@ -394,7 +397,6 @@ function renderTemplate($page, array $params = []) {
     }
     
     $fileName = TEMPLATES_DIR . $page . ".php";
-    
     if(file_exists($fileName)) {
         include $fileName;
     } else {
@@ -402,12 +404,13 @@ function renderTemplate($page, array $params = []) {
     }
 
     return ob_get_clean();
+
 }
 
 function renderMenu($params) {
     
     return renderTemplate('menu', $params);
-
+    
 }
 
 function renderNav() {
@@ -434,10 +437,9 @@ function renderNav() {
                 'name' => 'Корзина',
                 'cart' => true
             ],
-        ]
-    );
-    
-}
+            ]
+        );
+    }
 
 function init_gallery_database() {
     // $db = getDb();

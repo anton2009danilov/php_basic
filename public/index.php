@@ -5,7 +5,6 @@ include_once '../config/config.php';
 // init_gallery_database();
 // var_dump($_POST);
 
-
 if (isset($_GET['logout'])) {
     setcookie('hash');
     session_destroy();
@@ -16,7 +15,7 @@ if (isset($_POST['send'])) {
     
     $login = $_POST['login'];
     $pass = $_POST['pass'];
-
+    
     if (!auth($login, $pass)) {
         $auth_error = true;
         // die('Неверный логин или пароль');
@@ -44,9 +43,6 @@ if (!$url_array[1] == '') {
 } else {
     $page = 'index';
 }
-
-
-
 echo render($page, prepareVariables($page));
 
 // _log($params);

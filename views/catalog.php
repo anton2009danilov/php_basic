@@ -13,12 +13,12 @@
         <?endforeach;?>
     </ul>
 
-    <form method="post" enctype="multipart/form-data">
-        <!-- <label for="new_img">Выберите файл</label> -->
-        <input id="new_img" class="upload" type="file" name="new_img">
-        <input class="upload_btn" type="submit" name="load" value="Загрузить">
-    </form>
-
+        <form method="post" enctype="multipart/form-data">
+            <!-- <label for="new_img">Выберите файл</label> -->
+            <input id="new_img" class="upload" type="file" name="new_img">
+            <input class="upload_btn" type="submit" name="load" value="Загрузить">
+        </form>
+    
 </div>
 
 

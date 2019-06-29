@@ -79,21 +79,24 @@ function getBasket() {
             `gallery`.`item_name`, `gallery`.`price`
             FROM `basket`
             LEFT JOIN `gallery` ON `basket`.`item_id`=`gallery`.`id`
-            WHERE `basket`.`user_id`={$user_id}";
+            WHERE `basket`.`user_id`='{$user_id}'";
     $result = executeQuery($sql);
     return $result;
 }
 
 function getTotalQuantity($user_id) {
-    // var_dump($user_id);
+
     if(is_numeric($user_id)) {
         $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `user_id` = {$user_id}";
     } else {
-        $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `session` = {$user_id}";
+        $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `session` = '{$user_id}'";
     }
 
     // $sql = "SELECT SUM(`quantity`) FROM `basket` WHERE `user_id` = {$user_id}";
     // return executeQuery($sql);
     $result = executeQuery($sql);
+
+    if(!mysqli_fetch_assoc($result)['total'])
+        return 0;
     return mysqli_fetch_assoc($result)['total'];
 }
