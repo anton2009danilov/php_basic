@@ -18,20 +18,15 @@
 <hr>
 <h3>Оформить заказ:</h3>
 
-<!-- <form method="post" action="/order"> -->
 <form method="post" action="/order">
-    <input type="text" name="user_name" placeholder="Введите ФИО" value="<?=$row['name']?>" required>
+    <input type="text" id="user_name" name="user_name" placeholder="Введите ФИО" required>
     <br><br>
-    <input type="email" name="email" placeholder="Введите email" value="<?=$row['name']?>" required>
+    <input type="email" id="email" name="email" placeholder="Введите email" required>
     <br><br>
     
     <input class="order" id="<?=$id?>" type="submit" name="ok" value="Оформить заказ">
 </form>
-<!--
-<button class="order" id="<?=$id?>">Оформить заказ</button> 
-</form>
--->
-
+<p id="answer"></p>
 
 <script>
 
@@ -45,7 +40,7 @@
                 type: "POST",
                 dataType: "json",
                 data: {
-                    id: id
+                    id: id,
                 },
                 error: function() {console.log("ajax error");},
                 success: function(answer){
@@ -70,6 +65,7 @@
             event.preventDefault();
             let id = parseInt(event.target.id);
             console.log(id);
+            console.log($('#user_name').val());
             
             $.ajax(
                 {
@@ -77,7 +73,9 @@
                 type: "POST",
                 dataType: "json",
                 data: {
-                    id: id
+                    id: id,
+                    name: $('#user_name').val(),
+                    email: $('#email').val(),
                 },
                 error: function() {console.log("ajax error");},
                 success: function(answer){
@@ -86,13 +84,7 @@
                     if(answer['error']) {
                         alert(answer['error']);
                     } else {
-                        if(!answer['item_quantity']) {
-                            $('#' + id).remove();
-                        } 
-                        else {
-                            $('#item' + id).html(answer['item_quantity']);
-                        }
-                        $('#counter').html(`[ ${answer['total_quantity']} ]`);
+                        $('#answer').html(`Заказ оформлен. Спасибо за покупку!`);
                     }
                 }
             })

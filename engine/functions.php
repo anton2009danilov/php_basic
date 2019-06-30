@@ -147,21 +147,19 @@ function prepareVariables ($page) {
             break;
         
         case 'order':
-            $response['result'] = 'ok';
+            // $id = (int) $_POST['id'];
+            
+            $name = real_escape($_POST['name']);
+            $email = real_escape($_POST['email']);
+            createOrder($name, $email);
+            
+            // $response['result'] = createOrder($name, $email);;
+            // $response['result'] = 'заказ создан';
+            $response['result'] = $name;
             echo json_encode($response);
             die();
             break;
 
-            if (isset($_SESSION['id'])||isset($_SESSION['user'])){
-                // add_to_basket($id);
-                $response['result'] = add_to_basket($id);
-                echo json_encode($response);
-                die();
-            } else {
-                $response['error'] = 'Ошибка: для совершения покупок необходимо войти на сайт';    
-                echo json_encode($response);
-                die();
-            }
             // $response['result'] = 'ok';
             // $response['id'] = $id;
             // $response['SESSION_user'] = $_SESSION['user'];

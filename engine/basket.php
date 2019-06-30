@@ -98,9 +98,10 @@ function getBasket($id = null) {
         $user_id = $_SESSION['id'];
     }
 
-    else if($_SESSION['user'] === 'guest')
-        $user_id = session_id();
-    
+    // else if($_SESSION['user'] === 'guest')
+    //     $user_id = session_id();
+    $session = session_id();
+
 
     $sql = "SELECT `basket`.`item_id`, `basket`.`user_id`, `basket`.`quantity`,
             `gallery`.`item_name`, `gallery`.`price`
