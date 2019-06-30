@@ -89,9 +89,15 @@ function delete_from_basket($id) {
 }
 
 
-function getBasket() {
-    if (isset($_SESSION['id'])) 
+function getBasket($id = null) {
+
+    if(isset($id)) {
+        $user_id = $id;
+    }
+    else if (isset($_SESSION['id'])) {
         $user_id = $_SESSION['id'];
+    }
+
     else if($_SESSION['user'] === 'guest')
         $user_id = session_id();
     

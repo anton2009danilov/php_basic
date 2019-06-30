@@ -258,12 +258,16 @@ function prepareVariables ($page) {
             break;
 
         case 'admin':
+            $sql = "SELECT * FROM `users`";
+            $users_list = getAssocResult($sql);
             
+
             $params = [
                 'title' => 'Администратор',
                 'nav' => $nav,
                 'allow' => $allow,
                 'user' => $user,
+                'users_list' => $users_list,
                 // 'basket' => $basket,
             ];
             break;
