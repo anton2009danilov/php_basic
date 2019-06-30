@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 29 2019 г., 22:07
+-- Время создания: Июн 30 2019 г., 20:54
 -- Версия сервера: 5.7.23
 -- Версия PHP: 7.1.22
 
@@ -41,11 +41,19 @@ CREATE TABLE `basket` (
 --
 
 INSERT INTO `basket` (`id`, `item_id`, `user_id`, `session`, `quantity`) VALUES
-(21, 2, 1, '', 17),
-(24, 3, 1, '', 5),
-(25, 4, 1, '', 5),
+(21, 2, 1, '', 7),
+(24, 3, 1, '', 2),
+(25, 4, 1, '', 1),
 (26, 5, 1, '', 1),
-(48, 2, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 6);
+(48, 2, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 8),
+(50, 3, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 4),
+(51, 5, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 3),
+(52, 1, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 1),
+(53, 2, 2, '', 1),
+(54, 1, 2, '', 1),
+(55, 3, 2, '', 1),
+(56, 4, 3, '', 1),
+(58, 5, 3, '', 1);
 
 -- --------------------------------------------------------
 
@@ -68,7 +76,7 @@ INSERT INTO `feedback` (`id`, `item_id`, `name`, `feedback`) VALUES
 (27, 1, 'Антон', 'Класс!'),
 (29, 4, 'ЗЕЛЕНЫЙ ЧЕЛОВЕЧЕК', 'Какой зелёный, нравится'),
 (31, 3, 'Лунтик', 'Хочу такого друга )'),
-(33, 2, 'Антон', 'Мишка-Милашка!!!'),
+(33, 2, 'Антон', 'Мишка-Милашка!'),
 (36, 3, 'Антон', 'Привет, Единорожка! Скоро поедешь ко мне!\r\n\r\n'),
 (38, 4, 'Тоха', 'Зубастик. Очень понравился.'),
 (40, 6, 'Антон', 'Мне повар больше понравился. Этот какой-то мелкий'),
@@ -97,7 +105,7 @@ CREATE TABLE `gallery` (
 
 INSERT INTO `gallery` (`id`, `size`, `name`, `views`, `likes`, `description`, `item_name`, `price`) VALUES
 (1, 54519, 'frog.jpg', 22, 21, 'Весёлая, зелёная, квакает. Лягуха!', 'Лягушка', 150),
-(2, 88369, 'item1.jpg', 234, 59, 'Белый, мягкий, д-о-о-о-брый. Медведь!', 'Белый медведь', 200),
+(2, 88369, 'item1.jpg', 247, 59, 'Белый, мягкий, д-о-о-о-брый. Медведь!', 'Белый медведь', 200),
 (3, 16057, 'item2.jpg', 175, 25, 'Миленький единорожка. Любит играть!', 'Белый единорожка', 190),
 (4, 19954, 'item3.jpg', 205, 28, 'Маленький мягонький крокодильчик. Не кусается!', 'Крокодильчик', 150),
 (5, 102459, 'pikachu-cook.jpg', 12, 6, 'Знаменитый Повар Пикачу. Готовит быстро и мягко!', 'Повар Пикачу', 220),
@@ -121,7 +129,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `login`, `pass`, `hash`) VALUES
-(1, 'admin', '$2y$10$y78FPsfAJdWU0.93smb87O3flh3aFLox424I1SLeJ/nZitrzQFV1K', '72047995d1553c4877bd8.15807765');
+(1, 'admin', '$2y$10$y78FPsfAJdWU0.93smb87O3flh3aFLox424I1SLeJ/nZitrzQFV1K', '72047995d1553c4877bd8.15807765'),
+(2, 'user1', '$2y$10$y78FPsfAJdWU0.93smb87O3flh3aFLox424I1SLeJ/nZitrzQFV1K', '72047995d1553c4877bd8.15807765'),
+(3, 'user2', '$2y$10$y78FPsfAJdWU0.93smb87O3flh3aFLox424I1SLeJ/nZitrzQFV1K', '72047995d1553c4877bd8.15807765');
 
 --
 -- Индексы сохранённых таблиц
@@ -159,7 +169,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `basket`
 --
 ALTER TABLE `basket`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT для таблицы `feedback`
@@ -177,7 +187,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
