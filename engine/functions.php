@@ -146,6 +146,31 @@ function prepareVariables ($page) {
             die();
             break;
         
+        case 'order':
+            $response['result'] = 'ok';
+            echo json_encode($response);
+            die();
+            break;
+
+            if (isset($_SESSION['id'])||isset($_SESSION['user'])){
+                // add_to_basket($id);
+                $response['result'] = add_to_basket($id);
+                echo json_encode($response);
+                die();
+            } else {
+                $response['error'] = 'Ошибка: для совершения покупок необходимо войти на сайт';    
+                echo json_encode($response);
+                die();
+            }
+            // $response['result'] = 'ok';
+            // $response['id'] = $id;
+            // $response['SESSION_user'] = $_SESSION['user'];
+            
+            echo json_encode($response);
+
+            die();
+            break;
+        
         case 'delete_from_basket':
             
             $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
@@ -246,6 +271,12 @@ function prepareVariables ($page) {
                 $basket = getBasket();
             else 
                 $basket = [];
+            
+            if($_SESSION['id']) {
+                $id = $_SESSION['id'];
+            } else {
+                $id = session_id();
+            }
 
             $params = [
                 'title' => 'Корзина',
@@ -254,12 +285,13 @@ function prepareVariables ($page) {
                 'allow' => $allow,
                 'user' => $user,
                 'basket' => $basket,
+                'id' => $id,
             ];
             break;
 
         case 'admin':
-            $sql = "SELECT * FROM `users`";
-            $users_list = getAssocResult($sql);
+            
+            $users_list = getUsersList();
             
 
             $params = [

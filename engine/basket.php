@@ -51,7 +51,7 @@ function add_to_basket($id) {
 }
 
 function delete_from_basket($id) {
-    $item_id = $id;
+    $item_id = (int) $id;
     if (isset($_SESSION['id'])){
         $user_id = $_SESSION['id'];
     } else {
@@ -124,12 +124,16 @@ function getTotalQuantity($user_id) {
         $total = mysqli_fetch_assoc(executeQuery($sql))['total'];
     }
     
-    
     // return mysqli_fetch_assoc(executeQuery($sql));
     
     if(is_null($total)) {
         return '0';
     }
     return $total;
+
+}
+
+function getTotalPrice($user_id) {
+//
 
 }
