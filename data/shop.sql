@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 30 2019 г., 20:54
+-- Время создания: Июн 30 2019 г., 23:29
 -- Версия сервера: 5.7.23
 -- Версия PHP: 7.1.22
 
@@ -32,7 +32,7 @@ CREATE TABLE `basket` (
   `id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `session` text NOT NULL,
+  `session` text,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -49,8 +49,8 @@ INSERT INTO `basket` (`id`, `item_id`, `user_id`, `session`, `quantity`) VALUES
 (50, 3, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 4),
 (51, 5, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 3),
 (52, 1, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 1),
-(53, 2, 2, '', 1),
-(54, 1, 2, '', 1),
+(53, 2, 2, '', 2),
+(54, 1, 2, '', 2),
 (55, 3, 2, '', 1),
 (56, 4, 3, '', 1),
 (58, 5, 3, '', 1);
@@ -114,6 +114,19 @@ INSERT INTO `gallery` (`id`, `size`, `name`, `views`, `likes`, `description`, `i
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `email` text NOT NULL,
+  `session_id` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `users`
 --
 
@@ -156,6 +169,12 @@ ALTER TABLE `gallery`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
@@ -182,6 +201,12 @@ ALTER TABLE `feedback`
 --
 ALTER TABLE `gallery`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
