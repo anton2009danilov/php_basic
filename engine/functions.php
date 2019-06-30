@@ -147,9 +147,9 @@ function prepareVariables ($page) {
             break;
         
         case 'delete_from_basket':
+            
             $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
             if (isset($_SESSION['id'])||isset($_SESSION['user'])){
-                // add_to_basket($id);
                 $response = delete_from_basket($id);
                 echo json_encode($response);
                 die();
@@ -159,6 +159,7 @@ function prepareVariables ($page) {
                 echo json_encode($response);
                 die();
             }
+
             $response['result'] = 'ok';
             $response['id'] = $id;
             $response['SESSION_user'] = $_SESSION['user'];
@@ -253,6 +254,17 @@ function prepareVariables ($page) {
                 'allow' => $allow,
                 'user' => $user,
                 'basket' => $basket,
+            ];
+            break;
+
+        case 'admin':
+            
+            $params = [
+                'title' => 'Администратор',
+                'nav' => $nav,
+                'allow' => $allow,
+                'user' => $user,
+                // 'basket' => $basket,
             ];
             break;
 
@@ -418,13 +430,21 @@ function renderMenu($params) {
 }
 
 function renderNav() {
-    // if($_SESSION['user']){
+    if($_SESSION['user']||$_SESSION['login']){
         $cart = [
             'link' => '../../../basket',
             'name' => 'Корзина',
             'cart' => true,
         ];
-    // }
+    
+    }
+
+    if($_SESSION['login'] == 'admin' and $_SESSION['id'] == 1){
+        $admin = [
+            'link' => '../../../admin',
+            'name' => 'Администратор',
+        ];
+    }
 
     return renderMenu(
         [
@@ -444,7 +464,8 @@ function renderNav() {
                 'link' => '../../../calculator2',
                 'name' => 'Калькулятор 2',
             ],
-            'basket' => $cart
+            'basket' => $cart,
+            'admin' => $admin
             ]
         );
     }

@@ -24,7 +24,7 @@
             // let id = $("#buyButton").attr("data-id");
             let id = parseInt(event.target.id);
             
-            console.log(`id = ` + id);
+            // console.log(`id = ` + id);
             
             $.ajax(
                 
@@ -37,8 +37,8 @@
                 },
                 error: function() {console.log("ajax error");},
                 success: function(answer){
-                    // console.log(answer);
-                    console.log(answer['item_quantity']);
+                    console.log(answer);
+                    // console.log(answer['item_quantity']);
                     if(answer['error']) {
                         alert(answer['error']);
                     } else {

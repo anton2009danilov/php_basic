@@ -17,7 +17,6 @@ include_once '../engine/mathOperation.php';
 
 include_once "../engine/auth.php";
 include_once '../engine/basket.php';
-include_once '../engine/user.php';
 // include_once '../engine/addlike.php';
 
 
