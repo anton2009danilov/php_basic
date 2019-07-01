@@ -26,7 +26,8 @@
 
     $(document).ready(function(){
         $(".buy").on('click', function(event){
-            
+            let counter = $("#counter").html();
+            console.log(`counter: ${counter}`);
             let id = parseInt(event.target.id);
             console.log(id);
             
@@ -46,7 +47,7 @@
                         alert(answer['error']);
                     }
 
-                    $("#counter").html(`[ ${parseInt(answer['result'])} ]`);
+                    $("#counter").html(++counter);
 
                 }
             })

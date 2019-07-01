@@ -170,8 +170,8 @@ function prepareVariables ($page) {
             break;
         
         case 'delete_from_basket':
+            $id = (int) $_POST['id'];
             
-            $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
             if (isset($_SESSION['id'])||isset($_SESSION['user'])){
                 $response = delete_from_basket($id);
                 echo json_encode($response);

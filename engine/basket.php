@@ -2,16 +2,15 @@
 
 function add_to_basket($id) {
     $item_id = $id;
+    $session = session_id();
     // $user_id = $_SESSION['user'];
     if(isset($_SESSION['id'])) {
         $user_id = $_SESSION['id'];
-    } else {
-        $session = session_id();
     }
     
 
     if($user_id) {
-        $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND `user_id` = '{$user_id}'";
+        $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND `user_id` = '{$user_id}' AND `session` = '{$session}'";
 
         $result = mysqli_fetch_assoc(executeQuery($select))['id'];
 
@@ -42,11 +41,10 @@ function add_to_basket($id) {
 
     }
 
-    
     if($user_id)
         return $response['total_quantity'] = getTotalQuantity($user_id);
     else
-        return $response['total_quantity'] = getTotalQuantity($session);
+        return $response['total_quantity'] = getTotalQuantity();
     
 }
 
@@ -91,6 +89,8 @@ function delete_from_basket($id) {
 
 function getBasket($id = null) {
 
+    $session = session_id();
+
     if(isset($id)) {
         $user_id = $id;
     }
@@ -100,32 +100,43 @@ function getBasket($id = null) {
 
     // else if($_SESSION['user'] === 'guest')
     //     $user_id = session_id();
-    $session = session_id();
-
-
-    $sql = "SELECT `basket`.`item_id`, `basket`.`user_id`, `basket`.`quantity`,
+    
+    if(isset($user_id)) {
+        $sql = "SELECT `basket`.`item_id`, `basket`.`user_id`, `basket`.`quantity`,
             `gallery`.`item_name`, `gallery`.`price`
             FROM `basket`
             LEFT JOIN `gallery` ON `basket`.`item_id`=`gallery`.`id`
-            WHERE `basket`.`user_id`='{$user_id}' OR `basket`.`session` = '{$user_id}'";
+            WHERE `basket`.`user_id`='{$user_id}' AND `basket`.`session` = '{$session}'";    
+    } else {
+        $sql = "SELECT `basket`.`item_id`, `basket`.`user_id`, `basket`.`quantity`,
+                `gallery`.`item_name`, `gallery`.`price`
+                FROM `basket`
+                LEFT JOIN `gallery` ON `basket`.`item_id`=`gallery`.`id`
+                WHERE `basket`.`session` = '{$session}'";
+
+    }
+
 
     $result = executeQuery($sql);
 
     return $result;
 }
 
-function getTotalQuantity($user_id) {
-    if(!is_null($user_id)) {
-        
-        if(is_numeric($user_id)) {
-            $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `user_id` = '{$user_id}'";
-        } else {
-            $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `session` = '{$user_id}'";
-        }
-        $total = mysqli_fetch_assoc(executeQuery($sql))['total'];
+function getTotalQuantity($user_id = null) {
+    $session = session_id();
+
+    if(isset($user_id)){
+        $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `user_id` = '{$user_id}' AND `session` = '{$session}'";
+    } else {
+        $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `session` = '{$session}'";
     }
-    
-    // return mysqli_fetch_assoc(executeQuery($sql));
+
+        // if(is_numeric($user_id)) {
+        //     $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `user_id` = '{$user_id}'";
+        // } else {
+        //     $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `session` = '{$user_id}'";
+        // }
+    $total = mysqli_fetch_assoc(executeQuery($sql))['total'];
     
     if(is_null($total)) {
         return '0';

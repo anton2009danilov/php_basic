@@ -6,9 +6,9 @@
                 <?=$item['name']?>
                 <?if($item['cart']):?>
                     <?if(!$_SESSION['user']):?>
-                        <span id="counter">[ <?=getTotalQuantity(($_SESSION['id']))?> ]</span>
+                        [ <span id="counter"><?=getTotalQuantity(($_SESSION['id']))?></span> ]
                     <?else:?>
-                        <span id="counter">[ <?=getTotalQuantity(session_id())?> ]</span>
+                        [ <span id="counter"><?=getTotalQuantity()?></span> ]
                     <?endif;?>
                 <?endif;?>
             </a>

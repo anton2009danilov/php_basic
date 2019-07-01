@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июл 01 2019 г., 00:53
+-- Время создания: Июл 01 2019 г., 18:17
 -- Версия сервера: 5.7.23
 -- Версия PHP: 7.1.22
 
@@ -42,21 +42,7 @@ CREATE TABLE `basket` (
 
 INSERT INTO `basket` (`id`, `item_id`, `user_id`, `session`, `quantity`) VALUES
 (21, 2, 1, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 7),
-(24, 3, 1, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 2),
-(25, 4, 1, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 1),
-(26, 5, 1, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 1),
-(48, 2, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 8),
-(50, 3, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 4),
-(51, 5, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 3),
-(52, 1, NULL, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 1),
-(53, 2, 2, 'l968c82agvbk1ae7s83aoc9ia598q78c', 2),
-(54, 1, 2, 'l968c82agvbk1ae7s83aoc9ia598q78c', 2),
-(55, 3, 2, 'l968c82agvbk1ae7s83aoc9ia598q78c', 1),
-(56, 4, 3, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 1),
-(58, 5, 3, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 1),
-(59, 4, NULL, '8uo8cihqnr8e94rp37b53i58ccdsh807', 1),
-(60, 2, NULL, '16q04ha9dq276olkl26agd8j4u8q4kul', 1),
-(61, 2, NULL, 'r0mo83r59out69lec8j5nm6a6ou58e5v', 1);
+(67, 4, NULL, 'lfhv045bcjagilbbqnq7eve7r7u0095e', 6);
 
 -- --------------------------------------------------------
 
@@ -202,7 +188,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `basket`
 --
 ALTER TABLE `basket`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT для таблицы `feedback`
@@ -220,7 +206,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT для таблицы `users`

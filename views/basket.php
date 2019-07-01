@@ -29,14 +29,19 @@
 <p id="answer"></p>
 
 <script>
-
+    
     $(document).ready(function(){
+        
         $(".delete").on('click', function(event){
             let id = parseInt(event.target.id);
+            console.log(id);
+            let counter = $("#counter").html();
+            console.log(`counter: ${counter}`);
+            
             
             $.ajax(
                 {
-                url: "../delete_from_basket/" + id,
+                url: "../delete_from_basket/",
                 type: "POST",
                 dataType: "json",
                 data: {
@@ -45,6 +50,8 @@
                 error: function() {console.log("ajax error");},
                 success: function(answer){
                     console.log(answer);
+                    
+
                     // console.log(answer['item_quantity']);
                     if(answer['error']) {
                         alert(answer['error']);
@@ -55,7 +62,7 @@
                         else {
                             $('#item' + id).html(answer['item_quantity']);
                         }
-                        $('#counter').html(`[ ${answer['total_quantity']} ]`);
+                        $('#counter').html(--counter);
                     }
                 }
             })
