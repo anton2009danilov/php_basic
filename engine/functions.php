@@ -147,8 +147,13 @@ function prepareVariables ($page) {
             break;
         
         case 'change_order_status':
+            $status = real_escape($_POST['status']);
+            $order_id = real_escape($_POST['order_id']);
+            changeOrderStatus($order_id, $status);
 
-            echo json_encode($response);
+            // echo json_encode($status);
+            // echo json_encode($order_id);
+            echo json_encode(changeOrderStatus($order_id, $status));
 
             die();
             break;

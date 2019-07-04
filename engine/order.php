@@ -26,3 +26,23 @@ function getAllOrders() {
 
 
 }
+
+function changeOrderStatus($id, $status) {
+    
+    switch($status) {
+        case 'new':
+            $new_status = 'новый';
+            break;
+        case 'completed':
+            $new_status = 'завершен';
+            break;
+        case 'cancelled':
+            $new_status = 'отменен';
+            break;
+    }
+
+    $sql = "UPDATE `orders` SET `status` = '{$new_status}' WHERE id = {$id}";
+    // return $sql;
+    executeQuery($sql);
+    return "$new_status"; 
+}

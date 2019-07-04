@@ -18,13 +18,13 @@
                 <td><?=$order['id']?></td>
                 <td><?=$order['name']?></td>
                 <td><?=$order['email']?></td>
-                <td><?=$order['status']?></td>
+                <td id='status<?=$order['id']?>'><?=$order['status']?></td>
                 <td>
-                    <select class="change_status" id="<?$order['id']?>">
+                    <select class="change_status" id="<?=$order['id']?>">
                         <option value=""></option>
                         <option value="new">новый</option>
                         <option value="completed">завершен</option>
-                        <option value="canceled">отменен</option>
+                        <option value="cancelled">отменен</option>
                     </select>
                 </td>
             </tr>
@@ -46,22 +46,29 @@
         
         $(".change_status").on('change', function(event){
             let status = event.target.value;
-            console.log(status)
+
+            let order_id = event.target.id;
+            console.log(status);
+            console.log(order_id);
             
-            $.ajax(
-                {
-                url: "../change_order_status/",
-                type: "POST",
-                dataType: "json",
-                data: {
-                    status: status,
-                },
-                error: function() {console.log("ajax error");},
-                success: function(answer){
-                    console.log(answer);
-                    }
-                
-            })
+            if(status){
+                $.ajax(
+                    {
+                    url: "../change_order_status/",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        status: status,
+                        order_id: order_id
+                    },
+                    error: function() {console.log("ajax error");},
+                    success: function(answer){
+                        console.log(answer);
+                        $('#status'+ order_id).html(answer);
+                        }
+                })
+            }
+            
         })
     })
 
