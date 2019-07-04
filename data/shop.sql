@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июл 01 2019 г., 18:17
+-- Время создания: Июл 04 2019 г., 22:47
 -- Версия сервера: 5.7.23
 -- Версия PHP: 7.1.22
 
@@ -42,7 +42,10 @@ CREATE TABLE `basket` (
 
 INSERT INTO `basket` (`id`, `item_id`, `user_id`, `session`, `quantity`) VALUES
 (21, 2, 1, 'hjt7np3t1u4qtkp1d72a8b24o9s44gnm', 7),
-(67, 4, NULL, 'lfhv045bcjagilbbqnq7eve7r7u0095e', 6);
+(67, 4, NULL, 'lfhv045bcjagilbbqnq7eve7r7u0095e', 5),
+(68, 2, 2, 'lfhv045bcjagilbbqnq7eve7r7u0095e', 1),
+(69, 3, 2, 'lfhv045bcjagilbbqnq7eve7r7u0095e', 1),
+(70, 1, 2, '6t4sv4saf4gnu93sdjpma46p27ce9s7p', 2);
 
 -- --------------------------------------------------------
 
@@ -122,7 +125,9 @@ INSERT INTO `orders` (`id`, `name`, `email`, `session_id`, `status`) VALUES
 (2, 'anton', 'anton2009danilov@yandex.ru', 'l968c82agvbk1ae7s83aoc9ia598q78c', 'новый'),
 (3, 'Tyrex', 'buldog290918@inbox.ru', 'l968c82agvbk1ae7s83aoc9ia598q78c', 'новый'),
 (6, 'Tyrex', 'buldog290918@inbox.ru', 'q1imilipimusjeovfg1ke0p5bl11u2qi', 'новый'),
-(18, 'noname1', 'anton1409danilov@inbox.ru', '0eo7vddcmv0ipuuoipved8hb6bkv9a0v', 'новый');
+(18, 'noname1', 'anton1409danilov@inbox.ru', '0eo7vddcmv0ipuuoipved8hb6bkv9a0v', 'новый'),
+(19, 'user1', 'user1@mail.ru', 'lfhv045bcjagilbbqnq7eve7r7u0095e', 'новый'),
+(20, 'user1', 'user1@mail.ru', '6t4sv4saf4gnu93sdjpma46p27ce9s7p', 'новый');
 
 -- --------------------------------------------------------
 
@@ -188,7 +193,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `basket`
 --
 ALTER TABLE `basket`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT для таблицы `feedback`

@@ -146,6 +146,13 @@ function prepareVariables ($page) {
             die();
             break;
         
+        case 'change_order_status':
+
+            echo json_encode($response);
+
+            die();
+            break;
+
         case 'order':
             // $id = (int) $_POST['id'];
             
@@ -265,6 +272,7 @@ function prepareVariables ($page) {
             break;
         
         case 'basket':
+
             if($_SESSION['id']||$_SESSION['user'] === 'guest')
                 $basket = getBasket();
             else 
@@ -288,7 +296,13 @@ function prepareVariables ($page) {
             break;
 
         case 'admin':
-            
+            // var_dump($_SESSION);
+            if($_SESSION['id'] != 1) {
+                $allow = false;
+            }
+            $orders = getAllOrders();
+            // var_dump($orders);
+
             $users_list = getUsersList();
             
 
@@ -298,6 +312,7 @@ function prepareVariables ($page) {
                 'allow' => $allow,
                 'user' => $user,
                 'users_list' => $users_list,
+                'orders_list' => $orders,
                 // 'basket' => $basket,
             ];
             break;
@@ -490,14 +505,14 @@ function renderNav() {
                 'link' => '../../../catalog',
                 'name' => 'Каталог',
             ],
-            'calculator1' => [
-                'link' => '../../../calculator1',
-                'name' => 'Калькулятор 1',
-            ],
-            'calculator2' => [
-                'link' => '../../../calculator2',
-                'name' => 'Калькулятор 2',
-            ],
+            // 'calculator1' => [
+            //     'link' => '../../../calculator1',
+            //     'name' => 'Калькулятор 1',
+            // ],
+            // 'calculator2' => [
+            //     'link' => '../../../calculator2',
+            //     'name' => 'Калькулятор 2',
+            // ],
             'basket' => $cart,
             'admin' => $admin
             ]

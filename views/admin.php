@@ -1,42 +1,70 @@
+<?//var_dump($orders_list);?>
+<?if($allow):?>
+<h3>Список заказов:</h3>
+<table class="table">
+    <thead>
+        <tr>
+        <th scope="col">номер заказа</th>
+        <th scope="col">имя пользователя</th>
+        <th scope="col">e-mail</th>
+        <th scope="col">статус заказа</th>
+        <th scope="col">изменить статус</th>
+        </tr>
+    </thead>
+    <?foreach ($orders_list as $order):?>
 
-<?foreach ($users_list as $user):?>
-    <?$i = 1;?>
-    <?$id = $user['id']?>
-    <?$basket = getBasket($id);?>
-
-    <h4>Корзина товаров пользователя "<?=$user['login']?>"</h4>
-
-    <table class="table">
-        <thead>
+        <tbody>
             <tr>
-            <th scope="col">#</th>
-            <th scope="col">Наименование товара</th>
-            <th scope="col">Количество</th>
-            <th scope="col">Цена за единицу товара</th>
+                <td><?=$order['id']?></td>
+                <td><?=$order['name']?></td>
+                <td><?=$order['email']?></td>
+                <td><?=$order['status']?></td>
+                <td>
+                    <select class="change_status" id="<?$order['id']?>">
+                        <option value=""></option>
+                        <option value="new">новый</option>
+                        <option value="completed">завершен</option>
+                        <option value="canceled">отменен</option>
+                    </select>
+                </td>
             </tr>
-        </thead>
+        </tbody>
+
+    <?endforeach;?>
+
+</table>
+
+<?else:?>
+    <h3>Ошибка: отказано в доступе</h3>
+
+<?endif;?>
 
 
-        <?foreach ($basket as $item):?>
-                <tbody>
-                    <tr>
-                        <th scope="row"><?=$i++?></th>
-                        <td><?=$item['item_name']?></td>
-                        <td><?=$item['quantity']?></td>
-                        <td><?=$item['price']?> рублей</td>
-                    </tr>
-                </tbody>
-        <?endforeach;?>
-
+<script>
     
+    $(document).ready(function(){
+        
+        $(".change_status").on('change', function(event){
+            let status = event.target.value;
+            console.log(status)
+            
+            $.ajax(
+                {
+                url: "../change_order_status/",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    status: status,
+                },
+                error: function() {console.log("ajax error");},
+                success: function(answer){
+                    console.log(answer);
+                    }
+                
+            })
+        })
+    })
 
         
-    </table>
 
-
-
-
-
-
-<?endforeach;?>
-
+</script>
