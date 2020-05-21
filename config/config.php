@@ -6,9 +6,9 @@ define('ENGINE_DIR', '../engine/');
 define('LAYOUTS_DIR', './layouts/');
 
 define('HOST', 'localhost');
-define('USER', 'root');
-define('PASS', '');
-define('DB', 'shop');
+define('USER', 'anton1158_shop');
+define('PASS', '123123');
+define('DB', 'anton1158_shop');
 
 include_once ENGINE_DIR . 'lib_autoload.php';
 

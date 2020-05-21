@@ -1,0 +1,96 @@
+body {
+    background-image: url(/img/texture1.png);
+    color: #ff8989;
+}
+
+img {
+    padding: 1px;
+    margin: 2px;
+    border: 1px solid pink;
+}
+
+.upload {
+    color: #ff8989;
+}
+
+.upload_btn {
+    color: #ff8989;
+    border: none;
+    background: none;
+}
+
+.upload_btn:hover {
+    color: #ff5959;
+}
+
+.card {
+    width: 160px;
+    /* width: 200px; */
+    margin: 10px 2px;
+    transition: 1s;
+}
+
+.card:hover {
+    filter: brightness(1.1);
+    transform: scale(1.1);
+    transition-duration: .3s;
+}
+
+.card__description {
+    /* height: 80px; */
+}
+
+.wrapper {
+    margin-top: 10px;
+}
+.auth{
+    border-bottom: solid 1px pink;
+    margin: 20px;
+    padding: 20px;
+}
+
+.nav {
+    display: flex;
+    height: 60px;
+    font-size: 1.5em;
+    align-content: center;
+    align-items: center;
+}
+
+.content {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 20px;
+}
+
+.logo {
+    float: left;
+    margin-top: 4px;
+    margin-left: 10px;
+    top: 4px;
+    left: 10px;
+    width: 100px;
+    height: 80px;
+    background-image: url(../img/logo.png);
+    background-size: cover;
+    display: inline-block;
+}
+
+.bg-nav {
+    background-color: rgba(246, 156, 120, 0.6);
+}
+
+.nav-link {
+
+    color: white;
+    transform: scale(1.02);
+    transition: .5s;
+}
+.nav-link:hover {
+    color: indigo;
+    transform: scale(1.1);
+    transition-duration: .3s;
+}
+
+.container-round {
+    border-radius: 10px;
+}
