@@ -7,7 +7,7 @@ define('LAYOUTS_DIR', './layouts/');
 
 define('HOST', 'localhost');
 define('USER', 'root');
-define('PASS', '');
+define('PASS', '123123');
 define('DB', 'shop');
 
 include_once ENGINE_DIR . 'lib_autoload.php';
