@@ -69,7 +69,7 @@
         <?if(!$allow):?>
             <h3>Авторизация</h3>
             <form method="post" action="/">
-                <input type="text" name="login" placeholder="Логин admin, user1">
+                <input type="text" name="login" placeholder="Логин admin, user1, user2">
                 Save? <input type="checkbox" name="save">
                 <input type="password" name="pass" placeholder="Пароль 123">
                 <input type="submit" name="send">
