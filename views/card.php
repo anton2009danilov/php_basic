@@ -78,7 +78,7 @@
                     if(answer['error']) {
                         alert(answer['error']);
                     }
-                    $('#like').html(answer.result);
+                    $('#counter').html(answer.result);
                 }
             })
         })
