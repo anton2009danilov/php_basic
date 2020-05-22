@@ -504,7 +504,7 @@ function renderNav() {
         [
             'index' => [
                 'link' => '../../..',
-                'name' => 'Главная',
+                'name' => 'О компании',
             ],
             'catalog' => [
                 'link' => '../../../catalog',
