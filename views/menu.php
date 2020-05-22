@@ -1,7 +1,7 @@
 <div class="bg-nav container-round ml-1 mr-1">
     <ul class="nav d-flex">
 
-        <a href="../../.." class="logo"></a>
+        <a href="../../../catalog" class="logo"></a>
         <? foreach ($params as $item): ?>
             <? if ($item['name'] !== "Корзина"): ?>
                 <li class='nav-item'>
