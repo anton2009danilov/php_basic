@@ -62,6 +62,8 @@ img {
     font-size: 1.5em;
     align-content: center;
     align-items: center;
+    max-width: 1140px;
+    margin: auto;
 }
 
 .content {
@@ -97,10 +99,6 @@ img {
     color: indigo;
     transform: scale(1.1);
     transition-duration: .3s;
-}
-
-.container-round {
-    border-radius: 10px;
 }
 
 .footer {

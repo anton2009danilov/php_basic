@@ -1,4 +1,4 @@
-<div class="bg-nav container-round ml-1 mr-1">
+<div class="bg-nav">
     <ul class="nav d-flex">
 
         <a href="../../../catalog" class="logo"></a>
