@@ -208,7 +208,7 @@ function prepareVariables($page)
         case 'addlike':
             $user_id = $_SESSION['id'];
             $item_id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
-            $check_if_like_exists = "SELECT * FROM users_liked WHERE user_id = $user_id and item_id = $item_id";
+            $check_if_like_exists = "SELECT * FROM `users_liked` WHERE `user_id` = $user_id and 'item_id' = $item_id";
 
 //            $result = mysqli_fetch_assoc(executeQuery($check_if_like_exists));
             $result = mysqli_fetch_assoc(executeQuery($check_if_like_exists))["liked"];
@@ -221,7 +221,7 @@ function prepareVariables($page)
             // Проверяем существует ли запись в таблице users_liked
             if (isset($result)) {
                 // Если запись есть - меняем значение на противоположное
-                executeQuery("UPDATE users_liked SET liked = !liked WHERE user_id = $user_id and item_id = $item_id;");
+                executeQuery("UPDATE `users_liked` SET `liked` = !liked WHERE `user_id` = $user_id and 'item_id' = $item_id;");
                 if ($result == 1) {
                     $result = 0;
                 } else {
