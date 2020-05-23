@@ -208,7 +208,8 @@ function prepareVariables($page)
         case 'addlike':
             $user_id = $_SESSION['id'];
             $item_id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
-            $check_if_like_exists = "SELECT * FROM `users_liked` WHERE `user_id` = $user_id and 'item_id' = $item_id";
+
+            $check_if_like_exists = "SELECT * FROM `users_liked` WHERE `user_id` = '$user_id' and `item_id` = '$item_id'";
 
 //            $result = mysqli_fetch_assoc(executeQuery($check_if_like_exists));
             $result = mysqli_fetch_assoc(executeQuery($check_if_like_exists))["liked"];
@@ -221,7 +222,7 @@ function prepareVariables($page)
             // Проверяем существует ли запись в таблице users_liked
             if (isset($result)) {
                 // Если запись есть - меняем значение на противоположное
-                executeQuery("UPDATE `users_liked` SET `liked` = !liked WHERE `user_id` = $user_id and 'item_id' = $item_id;");
+                executeQuery("UPDATE users_liked SET liked = !liked WHERE user_id = $user_id and item_id = $item_id");
                 if ($result == 1) {
                     $result = 0;
                 } else {
@@ -229,7 +230,7 @@ function prepareVariables($page)
                 }
             } else {
                 // Если записи нет - создаём запись о лайке
-                executeQuery("INSERT INTO `users_liked`(`user_id`, `item_id`, `liked`) VALUES ($user_id,$item_id, 1)");
+                executeQuery("INSERT INTO users_liked(`user_id`, `item_id`, `liked`) VALUES ($user_id,$item_id, 1)");
                 $result = 1;
             }
 
@@ -348,11 +349,15 @@ function prepareVariables($page)
         case 'card':
             $user_id = $_SESSION['id'];
             $card_id = explode("/", $_SERVER['REQUEST_URI'])[2];
+
+            if($user_id) {
+                $liked_sql = "SELECT * FROM users_liked WHERE user_id = $user_id and item_id = $card_id";
+                $card['liked'] = mysqli_fetch_assoc(executeQuery($liked_sql))['liked'];
+            }
+
             $feedback_id = explode("/", $_SERVER['REQUEST_URI'])[4];
             $card = getCard($card_id);
-            $liked_sql = "SELECT * FROM users_liked WHERE user_id = $user_id and item_id = $card_id";
             $likes_count = "SELECT SUM(`liked`) as likes FROM users_liked WHERE item_id = $card_id";
-            $card['liked'] = mysqli_fetch_assoc(executeQuery($liked_sql))['liked'];
             $card['likes_count'] = mysqli_fetch_assoc(executeQuery($likes_count))['likes'];
 
             load_new_img();
