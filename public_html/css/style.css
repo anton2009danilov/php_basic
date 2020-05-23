@@ -124,6 +124,10 @@ img {
     align-self: center;
 }
 
+.buy:active {
+    filter: brightness(.7);
+}
+
 .addlike {
     width: 100px;
     font-size: 30px;
