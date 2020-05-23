@@ -10,4 +10,4 @@ create table users_liked
     foreign key likes_item_id_fkey (item_id) references gallery (id)
 );
 
-INSERT INTO `users_liked` (`user_id`, `item_id`, `liked`) VALUES ('2', '1', '1'), ('2', '2', '0');
+INSERT INTO `users_liked` (`user_id`, `item_id`, `liked`) VALUES ('2', '1', '1'), ('2', '2', '0'), ('1', '1', '1');
