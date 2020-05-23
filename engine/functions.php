@@ -222,7 +222,7 @@ function prepareVariables($page)
             if (isset($result)) {
                 // Если запись есть - меняем значение на противоположное
                 executeQuery("UPDATE users_liked SET liked = !liked WHERE user_id = $user_id and item_id = $item_id;");
-                if($result == 1) {
+                if ($result == 1) {
                     $result = 0;
                 } else {
                     $result = 1;
@@ -346,10 +346,15 @@ function prepareVariables($page)
             break;
 
         case 'card':
-
+            $user_id = $_SESSION['id'];
             $card_id = explode("/", $_SERVER['REQUEST_URI'])[2];
             $feedback_id = explode("/", $_SERVER['REQUEST_URI'])[4];
             $card = getCard($card_id);
+            $liked_sql = "SELECT * FROM users_liked WHERE user_id = $user_id and item_id = $card_id";
+            $likes_count = "SELECT SUM(`liked`) as likes FROM users_liked WHERE item_id = $card_id";
+            $card['liked'] = mysqli_fetch_assoc(executeQuery($liked_sql))['liked'];
+            $card['likes_count'] = mysqli_fetch_assoc(executeQuery($likes_count))['likes'];
+
             load_new_img();
             upd_views($card_id);
 
@@ -402,7 +407,8 @@ function prepareVariables($page)
                 'message' => $message,
                 'row' => $row,
                 'btn_text' => $btn_text,
-                'action' => $action
+                'action' => $action,
+                'liked' => $liked
             ];
             break;
 

@@ -113,3 +113,35 @@ img {
     line-height: 60px;
     /*background-color: #f5f5f5;*/
 }
+
+#buyButton {
+    color: white;
+}
+
+.buy {
+    margin-bottom: 4px;
+    /*max-width: 150px;*/
+    align-self: center;
+}
+
+.addlike {
+    width: 100px;
+    font-size: 30px;
+    margin-left: 30px;
+}
+
+.addlike:before {
+    font-family: "Font Awesome 5 Free"; font-weight: 500; font-size: 40px;content: "\f004";
+}
+
+.addlike:hover:before{
+    font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 40px;content: "\f004";
+}
+
+.addlike-active:before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 40px;content: "\f004";
+}
+
+.addlike-count {
+    /*font-size: 80px;*/
+}
