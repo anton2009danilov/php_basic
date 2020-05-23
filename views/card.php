@@ -53,10 +53,11 @@
                 },
                 error: function() {console.log("ajax error");},
                 success: function(answer){
-                    $('#like').html(answer.result);
+                    // $('#like').html(answer.result);
+                    console.log(answer);
                 }
             })
-        })
+        });
 
         $(".buy").on('click', function(){
             let id = $("#buyButton").attr("data-id");
