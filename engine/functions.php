@@ -540,7 +540,7 @@ function renderNav()
     return renderMenu(
         [
             'index' => [
-                'link' => '../../..',
+                'link' => '../../../index',
                 'name' => 'О компании',
             ],
             'catalog' => [

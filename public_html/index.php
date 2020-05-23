@@ -41,7 +41,7 @@ $url_array = explode("/", $_SERVER['REQUEST_URI']);
 if (!$url_array[1] == '') {
     $page = $url_array[1];
 } else {
-    $page = 'index';
+    $page = 'catalog';
 }
 echo render($page, prepareVariables($page));
 
