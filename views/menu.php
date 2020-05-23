@@ -1,21 +1,28 @@
-<div class="container bg-nav container-round">
-    <ul class="nav  align-content-center">
-        <a href="../../.." class="logo"></a>
-        <? foreach ($params as $item): ?>
+<div class="bg-nav">
+    <ul class="nav d-flex">
 
-            <li class='nav-item'>
-                <a class='nav-link' href='<?= $item['link'] ?>'>
-                    <?= $item['name'] ?>
-                    <? if ($item['cart']): ?>
+        <a href="../../../catalog" class="logo"></a>
+        <? foreach ($params as $item): ?>
+            <? if ($item['name'] !== "Корзина"): ?>
+                <li class='nav-item'>
+                    <a class='nav-link' href='<?= $item['link'] ?>'>
+                        <?= $item['name'] ?>
+                    </a>
+                </li>
+            <? endif; ?>
+
+            <? if ($item['cart']): ?>
+                <li class="ml-auto">
+                    <a class='nav-link' href='<?= $item['link'] ?>'>
+                        <?= $item['name'] ?>
                         <? if (!$_SESSION['user']): ?>
                             [ <span id="counter"><?= getTotalQuantity(($_SESSION['id'])) ?></span> ]
                         <? else: ?>
                             [ <span id="counter"><?= getTotalQuantity() ?></span> ]
                         <? endif; ?>
-                    <? endif; ?>
+                </li>
                 </a>
-            </li>
-
+            <? endif; ?>
 
         <? endforeach; ?>
 

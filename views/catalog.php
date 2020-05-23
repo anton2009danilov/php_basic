@@ -6,7 +6,7 @@
             <li class='figure card'>
                 <h6><?=$item['item_name']?></h6>
                 <h6>Цена: <?=$item['price']?> руб.</h6>
-                <a href="/card/<?=$item['id']?>" target="_blank"><img src="/img/small/<?=$item['name'];?>" alt="<?=$item['name'];?>"></a>
+                <a href="/card/<?=$item['id']?>"><img src="/img/small/<?=$item['name'];?>" alt="<?=$item['name'];?>"></a>
                 <button class="buy" id="<?=$item['id']?>_buyButton" data-id="<?=$item['id']?>">Купить</button>
                 <p class='card__description'><?=$item['description']?></p>
             </li>

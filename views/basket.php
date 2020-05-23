@@ -4,7 +4,7 @@
     <ul class='d-flex flex-wrap justify-content-between'>
         <?$i=1?>
         <?foreach($basket as $item):?>
-            <li class='figure' id="<?=$item['item_id']?>">
+            <li class='figure mr-auto' id="<?=$item['item_id']?>">
                 <h6><?=$i?>. <?=$item['item_name']?></h6>
                 <h6>Цена: <?=$item['price']?></h6>
                 <h6>Количество: <span id="item<?=$item['item_id']?>"><?=$item['quantity']?></span></h6>
