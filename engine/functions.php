@@ -204,12 +204,27 @@ function prepareVariables($page)
 
             $gallery_count = countGallery();
 //            var_dump($count);die;
-            $pagination_limit = 2;
-            $pages_count = round($gallery_count/$pagination_limit);
+            $pagination_limit = 4;
+            $pages_count = round($gallery_count / $pagination_limit);
             $current_pagination_page = explode("/", $_SERVER['REQUEST_URI'])[2];
-            $gallery = getGallery();
+            if ($current_pagination_page === null) {
+                $current_pagination_page = 1;
+            }
+
+
+//            $gallery = getGallery();
+            $gallery = getGallery($pagination_limit, $current_pagination_page);
+
             $next_page = $current_pagination_page + 1;
-            $previous_page =$current_pagination_page - 1;
+            $previous_page = $current_pagination_page - 1;
+
+            if ($next_page > $pages_count) {
+                $next_page = $pages_count;
+            }
+
+            if ($previous_page === 0) {
+                $previous_page = 1;
+            }
 
             $params = [
                 'title' => 'Галерея',
@@ -347,14 +362,16 @@ function prepareVariables($page)
     return $params;
 }
 
-function getGallery()
+function getGallery($limit, $current_page_num)
 {
-    $sql = "SELECT * FROM `gallery` ORDER BY `views` DESC";
+    $offset = $limit * ($current_page_num - 1);
+    $sql = "SELECT * FROM `gallery` ORDER BY `views` DESC LIMIT $limit OFFSET $offset";
     $gallery = getAssocResult($sql);
     return $gallery;
 }
 
-function countGallery() {
+function countGallery()
+{
     $sql = "SELECT count(*) as count FROM `gallery`";
     return getAssocResult($sql)[0]['count'];
 }
