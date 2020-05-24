@@ -34,3 +34,10 @@ function getAssocResult($sql) {
 function real_escape($str){
     return mysqli_real_escape_string(getDb(), strip_tags(stripslashes($str)));
 }
+
+function add_new_item($size, $name, $description, $item_name, $price) {
+    $link = getDb();
+    $sql = "INSERT INTO `gallery`(`size`, `name`, `description`, `item_name`, `price`)
+           VALUES ($size, '$name', '$description', '$item_name', $price)";
+    executeQuery($sql) or die(mysqli_error($link));
+}

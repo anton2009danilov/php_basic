@@ -2,8 +2,13 @@
 session_start();
 include_once '../config/config.php';
 
-// init_gallery_database();
-// var_dump($_POST);
+//include_once '../engine/resize.php';
+//create_thumbnail("./img/big/dragon.jpg", "./img/small/dragon.jpg", 110, 150);
+//var_dump(filesize("./img/big/dragon.jpg"));die;
+//add_new_item(filesize("./img/big/dragon.jpg"),"dragon.jpg",
+//    "Сказочный дракончик. Любит летать и есть сладкое.", "Дракончик", 300);
+
+
 
 if (isset($_GET['logout'])) {
     setcookie('hash');

@@ -204,8 +204,8 @@ function prepareVariables($page)
 
             $gallery_count = countGallery();
 //            var_dump($count);die;
-            $pagination_limit = 3;
-            $pages_count = $gallery_count/$pagination_limit;
+            $pagination_limit = 2;
+            $pages_count = round($gallery_count/$pagination_limit);
             $current_pagination_page = explode("/", $_SERVER['REQUEST_URI'])[2];
             $gallery = getGallery();
             $next_page = $current_pagination_page + 1;

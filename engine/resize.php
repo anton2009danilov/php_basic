@@ -1,6 +1,7 @@
 <?php 
 function create_thumbnail($path, $save, $width, $height) {
     $info = getimagesize($path); //получаем размеры картинки и ее тип
+//    var_dump($info);die;
 	$size = array($info[0], $info[1]); //закидываем размеры в массив
 
         //В зависимости от расширения картинки вызываем соответствующую функцию
