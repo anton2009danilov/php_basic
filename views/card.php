@@ -1,6 +1,6 @@
 <div class='d-flex'>
     <div>
-        <img width='500px' src="/img/big/<?= $card['name'] ?>" alt="Товар <?= $card['id'] ?>">
+        <img class="item_page_img" src="/img/big/<?= $card['name'] ?>" alt="Товар <?= $card['id'] ?>">
     </div>
     <div class='d-flex flex-column description'>
         <h3><?= $card['item_name'] ?></h3>

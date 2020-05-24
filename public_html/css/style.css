@@ -163,3 +163,10 @@ img {
     border: 1px solid pink;
     text-align: center;
 }
+
+.item_page_img {
+    width: 500px;
+    padding: 1px;
+    margin: 2px;
+    border: 1px solid pink;
+}
