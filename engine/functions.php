@@ -4,11 +4,15 @@ function prepareVariables($page)
 {
 
     $allow = false;
+//    $allow = true;
 
     if (is_auth()) {
         $allow = true;
         $user = get_user();
     }
+
+    //Теперь гость сразу заходит магазин не нажимая никаких кнопок авторизации
+    $_SESSION['user'] = 'guest';
 
     if (isset($_POST['guest'])) {
         $allow = true;
@@ -17,7 +21,7 @@ function prepareVariables($page)
     }
 
     if ($_SESSION['user'] == 'guest') {
-        $allow = true;
+        $allow = false;
         $user = 'guest';
     }
 

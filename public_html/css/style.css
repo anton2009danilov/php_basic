@@ -70,8 +70,9 @@ img {
 
 .content {
     background-color: rgba(255, 255, 255, 0.6);
-    padding: 20px;
-    margin-bottom: 60px;
+    padding: 20px 20px 120px 20px;
+    /*margin: 0 0 100px 0;*/
+    /*margin-bottom: 60px;*/
 }
 
 .logo {

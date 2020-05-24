@@ -24,7 +24,7 @@
     <? echo $nav ?>
 
     <div class="container">
-        <!-- <? echo $auth ?> -->
+
         <div class="auth">
             <? if (!$allow): ?>
                 <h3>Авторизация</h3>
@@ -54,6 +54,7 @@
         </div>
     </div>
 </div>
+
 <footer class="footer">
     <div class="container">
         <span class="text-muted">
