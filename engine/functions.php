@@ -40,92 +40,6 @@ function prepareVariables($page)
             ];
             break;
 
-        case 'calculator1':
-
-            $params = [
-                'title' => 'calculator1',
-                'nav' => $nav,
-                // 'auth' => $auth,
-                'allow' => $allow,
-                'user' => $user,
-                'result' => $_SESSION['result'],
-                'operand1' => $_SESSION['operand1'],
-                'operand2' => $_SESSION['operand2'],
-                'operation' => $_SESSION['operation'],
-            ];
-            break;
-
-        case 'calculator2':
-            $params = [
-                'title' => 'calculator2',
-                'nav' => $nav,
-                // 'auth' => $auth,
-                'allow' => $allow,
-                'user' => $user,
-            ];
-            break;
-
-        case 'math':
-            // die(var_dump($_POST));
-            $val1 = (int)$_POST['operand1'];
-            $val2 = (int)$_POST['operand2'];
-            $operation = $_POST['operation'];
-
-            switch ($operation) {
-                case "+":
-                    $result = mathOperation($val1, $val2, 'add');
-                    break;
-                case "-":
-                    $result = mathOperation($val1, $val2, 'dim');
-                    break;
-                case "*":
-                    $result = mathOperation($val1, $val2, 'mult');
-                    break;
-                case "/":
-                    $result = mathOperation($val1, $val2, 'div');
-                    break;
-            }
-
-            $_SESSION['result'] = $result;
-            $_SESSION['operand1'] = $val1;
-            $_SESSION['operand2'] = $val2;
-            $_SESSION['operation'] = $operation;
-
-            header("Location: ../calculator1");
-            // $response['result'] = $result;
-
-            // echo json_encode($response);
-            die();
-            break;
-
-        case 'math2':
-            // die(var_dump($_POST));
-            $val1 = (int)$_POST['operand1'];
-            $val2 = (int)$_POST['operand2'];
-            $operation = $_POST['operation'];
-
-            switch ($operation) {
-                case "+":
-                    $result = mathOperation($val1, $val2, 'add');
-                    break;
-                case "-":
-                    $result = mathOperation($val1, $val2, 'dim');
-                    break;
-                case "*":
-                    $result = mathOperation($val1, $val2, 'mult');
-                    break;
-                case "/":
-                    $result = mathOperation($val1, $val2, 'div');
-                    break;
-            }
-
-
-            $response['result'] = $result;
-
-            echo json_encode($response);
-            die();
-            break;
-
         case 'add_to_basket':
             $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
             if (isset($_SESSION['id']) || isset($_SESSION['user'])) {
@@ -350,7 +264,7 @@ function prepareVariables($page)
             $user_id = $_SESSION['id'];
             $card_id = explode("/", $_SERVER['REQUEST_URI'])[2];
 
-            if($user_id) {
+            if ($user_id) {
                 $liked_sql = "SELECT * FROM users_liked WHERE user_id = $user_id and item_id = $card_id";
                 $card['liked'] = mysqli_fetch_assoc(executeQuery($liked_sql))['liked'];
             }
@@ -363,11 +277,7 @@ function prepareVariables($page)
             load_new_img();
             upd_views($card_id);
 
-            //создать getFeedback()
-            // $db = getDb();
-            // $feedback = mysqli_query($db, "SELECT * FROM `feedback` WHERE `item_id` = $card_id");
             $feedback = executeQuery("SELECT * FROM `feedback` WHERE `item_id` = $card_id");
-            ///
             $str = explode("/", $_SERVER['REQUEST_URI'])[3];
             $btn_text = 'Отправить';
             $action = 'addfeedback/' . $card_id;
@@ -412,8 +322,7 @@ function prepareVariables($page)
                 'message' => $message,
                 'row' => $row,
                 'btn_text' => $btn_text,
-                'action' => $action,
-                'liked' => $liked
+                'action' => $action
             ];
             break;
 
