@@ -31,7 +31,7 @@
     $(document).ready(function () {
             // let url_page_number = explode("/", $_SERVER['REQUEST_URI'])[2];
             let current_page;
-            if(window.location.href.match(/\d+/)) {
+            if(window.location.href.match(/\d+$/)) {
                 let url_page_num = window.location.href.match(/\d+/)[0];
                 current_page = "#page" + url_page_num;
             } else {
