@@ -14,3 +14,5 @@ INSERT INTO `users_liked` (`user_id`, `item_id`, `liked`) VALUES ('2', '1', '1')
 
 INSERT INTO `gallery`(`size`, `name`, `description`, `item_name`, `price`)
            VALUES (119724, 'dragon.jpg', 'Сказочный дракончик. Любит летать и есть сладкое.', 'Дракончик', 300);
+
+ALTER TABLE `gallery` DROP `likes`;
