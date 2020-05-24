@@ -74,15 +74,19 @@ img {
 
 .logo {
     float: left;
-    margin-top: 4px;
     margin-left: 10px;
-    top: 4px;
-    left: 10px;
     width: 100px;
-    height: 80px;
+    height: 50px;
+    /*margin-bottom: 20px;*/
     background-image: url(../img/logo.png);
+    border-radius: 10px;
+    background-position: center;
     background-size: cover;
     display: inline-block;
+}
+
+.logo:hover {
+    background-color: rgba(246, 156, 120, .9);
 }
 
 .bg-nav {
