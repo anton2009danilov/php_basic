@@ -125,8 +125,8 @@ function prepareVariables($page)
 
             $check_if_like_exists = "SELECT * FROM `users_liked` WHERE `user_id` = '$user_id' and `item_id` = '$item_id'";
 
-//            $result = mysqli_fetch_assoc(executeQuery($check_if_like_exists));
-            $result = mysqli_fetch_assoc(executeQuery($check_if_like_exists))["liked"];
+//            $result = mysqli_fetch_assoc(executeQuery($check_if_like_exists))["liked"];
+            $result = getAssocResult(($check_if_like_exists))[0]["liked"];
 
 //            $response['result'] = $result;
 //
@@ -202,6 +202,8 @@ function prepareVariables($page)
 
             load_new_img();
 
+            $count = countGallery();
+//            var_dump($count);die;
             $gallery = getGallery();
             $pagination_page = explode("/", $_SERVER['REQUEST_URI'])[2];
 
@@ -266,13 +268,15 @@ function prepareVariables($page)
             $user_id = $_SESSION['id'];
             $card_id = explode("/", $_SERVER['REQUEST_URI'])[2];
 
+
+            $feedback_id = explode("/", $_SERVER['REQUEST_URI'])[4];
+            $card = getCard($card_id);
+
             if ($user_id) {
                 $liked_sql = "SELECT * FROM users_liked WHERE user_id = $user_id and item_id = $card_id";
                 $card['liked'] = mysqli_fetch_assoc(executeQuery($liked_sql))['liked'];
             }
 
-            $feedback_id = explode("/", $_SERVER['REQUEST_URI'])[4];
-            $card = getCard($card_id);
             $likes_count = "SELECT SUM(`liked`) as likes FROM users_liked WHERE item_id = $card_id";
             $card['likes_count'] = mysqli_fetch_assoc(executeQuery($likes_count))['likes'];
 
@@ -324,7 +328,7 @@ function prepareVariables($page)
                 'message' => $message,
                 'row' => $row,
                 'btn_text' => $btn_text,
-                'action' => $action
+                'action' => $action,
             ];
             break;
 
@@ -341,6 +345,11 @@ function getGallery()
     $sql = "SELECT * FROM `gallery` ORDER BY `views` DESC";
     $gallery = getAssocResult($sql);
     return $gallery;
+}
+
+function countGallery() {
+    $sql = "SELECT count(*) as count FROM `gallery`";
+    return getAssocResult($sql)[0]['count'];
 }
 
 function getCard($id)
