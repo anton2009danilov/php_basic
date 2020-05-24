@@ -203,6 +203,7 @@ function prepareVariables($page)
             load_new_img();
 
             $gallery = getGallery();
+            $pagination_page = explode("/", $_SERVER['REQUEST_URI'])[2];
 
             $params = [
                 'title' => 'Галерея',
@@ -211,6 +212,7 @@ function prepareVariables($page)
                 'allow' => $allow,
                 'user' => $user,
                 'gallery' => $gallery,
+//                'pagination_page' => $pagination_page
             ];
             break;
 
