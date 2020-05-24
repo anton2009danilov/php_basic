@@ -7,8 +7,7 @@
         <h4>Цена: <?= $card['price'] ?> руб.</h4>
         <h4 class='description__text'><?= $card['description'] ?></h4>
         <h5>Количество просмотров: <?= $card['views'] ?></h5>
-
-        <a class="addlike ml-2 mr-2 mt-auto mb-2 <? if ($card['liked']) {echo "addlike-active";} ?>"
+        <a class="addlike ml-2 mr-2 mt-auto mb-2 <? if ($card['liked'] || !$user ) {echo "addlike-active";} ?>"
            id="likeButton" data-liked="<?=$card['liked']?>" data-id="<?= $card['id'] ?>">
             <span id="like" data-count="<?= $card['likes_count'] ?>"
                   class="like-count"><?= $card['likes_count'] ?></span>
