@@ -9,20 +9,13 @@ function prepareVariables($page)
     if (is_auth()) {
         $allow = true;
         $user = get_user();
-    }
+    } else {
 
-    //Теперь гость сразу заходит магазин не нажимая никаких кнопок авторизации
-    $_SESSION['user'] = 'guest';
-
-    if (isset($_POST['guest'])) {
-        $allow = true;
-        $user = get_user();
-        $_SESSION['user'] = $user;
-    }
-
-    if ($_SESSION['user'] == 'guest') {
-        $allow = false;
-        $user = 'guest';
+        if ($_SESSION['user'] == null) {
+            $allow = false;
+            $user = 'guest';
+            $_SESSION['user'] = $user;
+        }
     }
 
     $params = [];
