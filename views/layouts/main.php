@@ -36,9 +36,9 @@
                 </form>
                 <br>
 
-                <form method="post" action="/">
-                    <input type="submit" name="guest" value="Войти как Гость">
-                </form>
+<!--                <form method="post" action="/">-->
+<!--                    <input type="submit" name="guest" value="Войти как Гость">-->
+<!--                </form>-->
 
                 <? if ($auth_error): ?>
                     <p>Ошибка авторизации</p>
