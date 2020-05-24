@@ -202,10 +202,14 @@ function prepareVariables($page)
 
             load_new_img();
 
-            $count = countGallery();
+            $gallery_count = countGallery();
 //            var_dump($count);die;
+            $pagination_limit = 3;
+            $pages_count = $gallery_count/$pagination_limit;
+            $current_pagination_page = explode("/", $_SERVER['REQUEST_URI'])[2];
             $gallery = getGallery();
-            $pagination_page = explode("/", $_SERVER['REQUEST_URI'])[2];
+            $next_page = $current_pagination_page + 1;
+            $previous_page =$current_pagination_page - 1;
 
             $params = [
                 'title' => 'Галерея',
@@ -214,7 +218,10 @@ function prepareVariables($page)
                 'allow' => $allow,
                 'user' => $user,
                 'gallery' => $gallery,
-//                'pagination_page' => $pagination_page
+                'pages_count' => $pages_count,
+                'current_pagination_page' => $current_pagination_page,
+                'next_page' => $next_page,
+                'previous_page' => $previous_page
             ];
             break;
 

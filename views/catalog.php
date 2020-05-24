@@ -16,13 +16,12 @@
         <? endforeach; ?>
     </ul>
 
-    <? var_dump($pagination_page); ?>
     <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <? for ($i = 1; $i <= 4; $i++): ?>
+        <li class="page-item"><a class="page-link" href="../../../catalog/<?=$previous_page?>">Previous</a></li>
+        <? for ($i = 1; $i <= $pages_count; $i++): ?>
             <li class="page-item pagination_item" id="page<?=$i?>"><a class="page-link" href="../../../catalog/<?=$i?>"><?=$i?></a></li>
         <? endfor; ?>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        <li class="page-item"><a class="page-link" href="../../../catalog/<?=$next_page?>">Next</a></li>
     </ul>
 </div>
 
