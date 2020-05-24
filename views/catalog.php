@@ -1,9 +1,9 @@
 <div class='container'>
     <h3>Каталог магазина:</h3>
 
-    <ul class='d-flex flex-wrap justify-content-between'>
+    <ul class='d-flex flex-wrap'>
         <? foreach ($gallery as $item): ?>
-            <li class='figure card'>
+            <li class='figure card m-1'>
                 <h6><?= $item['item_name'] ?></h6>
                 <h6>Цена: <?= $item['price'] ?> руб.</h6>
                 <a href="/card/<?= $item['id'] ?>" class="card_link"><img src="/img/small/<?= $item['name']; ?>"
@@ -17,11 +17,11 @@
     </ul>
 
     <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="../../../catalog/<?=$previous_page?>">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="../../../catalog/<?=$previous_page?>"><i class="fas fa-arrow-left"></i></a></li>
         <? for ($i = 1; $i <= $pages_count; $i++): ?>
             <li class="page-item pagination_item" id="page<?=$i?>"><a class="page-link" href="../../../catalog/<?=$i?>"><?=$i?></a></li>
         <? endfor; ?>
-        <li class="page-item"><a class="page-link" href="../../../catalog/<?=$next_page?>">Next</a></li>
+        <li class="page-item"><a class="page-link" href="../../../catalog/<?=$next_page?>"><i class="fas fa-arrow-right"></i></a></li>
     </ul>
 </div>
 
@@ -33,18 +33,14 @@
             let current_page;
             $str = window.location.href;
             $str = $str.substr(-5, 5);
-            console.log($str);
             if($str.match(/\d+$/)) {
                 let url_page_num = $str.match(/\d+/)[0];
                 current_page = "#page" + url_page_num;
             } else {
                 current_page = "#page1";
             }
-            console.log(current_page);
-            $(current_page).addClass("active");
 
-            // console.log("#page" + url_page_number);
-            // console.log($("#page" + url_page_number).innerText);
+            $(current_page).addClass("active");
 
             $(".buy").on('click', function (event) {
                 let counter = $("#counter").html();
