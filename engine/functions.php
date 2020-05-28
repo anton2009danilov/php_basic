@@ -238,7 +238,7 @@ function prepareVariables($page)
             break;
 
         case 'basket':
-
+            var_dump($_SESSION);
             if ($_SESSION['id'] || $_SESSION['user'] === 'guest')
                 $basket = getBasket();
             else

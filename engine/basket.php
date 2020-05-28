@@ -112,11 +112,12 @@ function getBasket($id = null) {
                 `gallery`.`item_name`, `gallery`.`price`
                 FROM `basket`
                 LEFT JOIN `gallery` ON `basket`.`item_id`=`gallery`.`id`
-                WHERE `basket`.`session` = '{$session}'";
+                WHERE `basket`.`session` = '{$session}' AND `basket`.`user_id` IS NULL";
+//                WHERE `basket`.`session` = '{$session}'";
 
     }
 
-
+//    var_dump($sql); die;
     $result = executeQuery($sql);
 
     return $result;
@@ -128,7 +129,7 @@ function getTotalQuantity($user_id = null) {
     if(isset($user_id)){
         $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `user_id` = '{$user_id}' AND `session` = '{$session}'";
     } else {
-        $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `session` = '{$session}'";
+        $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `session` = '{$session}' AND `user_id` IS NULL";
     }
 
         // if(is_numeric($user_id)) {
@@ -136,8 +137,9 @@ function getTotalQuantity($user_id = null) {
         // } else {
         //     $sql = "SELECT SUM(`quantity`) as total FROM `basket` WHERE `session` = '{$user_id}'";
         // }
-    $total = mysqli_fetch_assoc(executeQuery($sql))['total'];
-    
+
+    $total = getAssocResult($sql)[0]['total'];
+
     if(is_null($total)) {
         return '0';
     }

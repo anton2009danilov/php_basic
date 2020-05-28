@@ -15,10 +15,12 @@
                 <li class="ml-auto">
                     <a class='nav-link' href='<?= $item['link'] ?>'>
                         <?= $item['name'] ?>
-                        <? if (!$_SESSION['user']): ?>
-                            [ <span id="counter"><?= getTotalQuantity(($_SESSION['id'])) ?></span> ]
-                        <? else: ?>
+<!--                        [ <span id="counter">--><?//= getTotalQuantity() ?><!--</span> ]-->
+<!--                        [ <span id="counter">--><?//= getTotalQuantity(($_SESSION['id'])) ?><!--</span> ]-->
+                        <? if (!$_SESSION['id']): ?>
                             [ <span id="counter"><?= getTotalQuantity() ?></span> ]
+                        <? else: ?>
+                            [ <span id="counter"><?= getTotalQuantity(($_SESSION['id'])) ?></span> ]
                         <? endif; ?>
                 </li>
                 </a>
