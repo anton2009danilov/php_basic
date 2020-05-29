@@ -1,22 +1,6 @@
 <div class='container'>
     <h3>Корзина:</h3>
 
-    <!--    <ul class='d-flex flex-wrap justify-content-left'>-->
-    <!--        --><? // $i = 1 ?>
-    <!--        --><? // foreach ($basket as $item): ?>
-    <!--            <li class='figure ml-3' id="--><? //= $item['item_id'] ?><!--">-->
-    <!--                <h6>--><? //= $i ?><!--. --><? //= $item['item_name'] ?><!--</h6>-->
-    <!--                <h6>Цена: --><? //= $item['price'] ?><!--</h6>-->
-    <!--                <h6>Количество: <span id="item--><? //= $item['item_id'] ?><!--">-->
-    <? //= $item['quantity'] ?><!--</span></h6>-->
-    <!--                <button class="delete" id="-->
-    <? //= $item['item_id'] ?><!--_deleteButton">Убрать из корзины</button>-->
-    <!--                --><? // $i++ ?>
-    <!--            </li>-->
-    <!--        --><? // endforeach; ?>
-    <!--    </ul>-->
-
-
     <? if ($basket->num_rows === 0) { ?>
         <h4>В корзине нет товаров</h4>
     <? } else { ?>
@@ -30,7 +14,6 @@
             </tr>
             </thead>
             <tbody>
-<!--                    --><?// var_dump(mysqli_fetch_assoc($basket))?>
 
             <? foreach ($basket as $item): ?>
                 <tr id="<?= $item['item_id'] ?>">
@@ -78,7 +61,6 @@
 
         for (let i = 0; i < prices_objs.length; i++) {
             prices_arr.push(+prices_objs[i].textContent);
-            // console.log(+prices_objs[i].textContent);
         }
 
         let items_quantity_objs = document.getElementsByClassName('item_quantity');
@@ -86,7 +68,6 @@
 
         for (let i = 0; i < items_quantity_objs.length; i++) {
             items_quantities_arr.push(+items_quantity_objs[i].value);
-            // console.log(+prices_objs[i].textContent);
         }
 
         calculation_data.prices = prices_arr;
@@ -97,7 +78,7 @@
         for (let i = 0; i < calculation_data.prices.length; i++) {
             result += calculation_data.prices[i] * calculation_data.quantities[i];
         }
-        console.log(result);
+
         $('#total_price').html(result);
     }
 
