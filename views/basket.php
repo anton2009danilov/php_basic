@@ -17,35 +17,39 @@
     <!--    </ul>-->
 
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Наименование</th>
-            <th>Цена</th>
-            <th>Количество</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <? foreach ($basket as $item): ?>
-            <tr id="<?= $item['item_id'] ?>">
-                <td><?= $item['item_name'] ?></td>
-                <td><?= $item['price'] ?> руб.</td>
-                <td><input id="item<?= $item['item_id'] ?>" class="item_quantity" type="number"
-                           value="<?= $item['quantity'] ?>" min="1" max="100"
-                           step="1">
-                </td>
-                <td>
-                    <button class="delete" id="<?= $item['item_id'] ?>_deleteButton">Убрать из корзины</button>
-                </td>
-
+    <? if ($basket->num_rows === 0) { ?>
+        <h4>В корзине нет товаров</h4>
+    <? } else { ?>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Наименование</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th></th>
             </tr>
-        <? endforeach; ?>
+            </thead>
+            <tbody>
+            <!--        --><? //var_dump($basket->length)?>
 
+            <? foreach ($basket as $item): ?>
+                <tr id="<?= $item['item_id'] ?>">
+                    <td><?= $item['item_name'] ?></td>
+                    <td><span class="price"><?= $item['price'] ?></span> руб.</td>
+                    <td><input id="item<?= $item['item_id'] ?>" class="item_quantity" type="number"
+                               value="<?= $item['quantity'] ?>" min="1" max="100"
+                               step="1">
+                    </td>
+                    <td>
+                        <button class="delete" id="<?= $item['item_id'] ?>_deleteButton">Убрать из корзины</button>
+                    </td>
 
-        </tbody>
-    </table>
+                </tr>
+            <? endforeach; ?>
+            </tbody>
+        </table>
+        <h4>Итого: <span id="total_price"></span> руб.</h4>
+    <? } ?>
 
 
 </div>
@@ -65,11 +69,46 @@
 
 <script>
 
+    function showTotalPrice() {
+        let $total_price;
+        // let prices_objs = $('.price');
+        let calculation_data = {};
+        let prices_objs = document.getElementsByClassName('price');
+        let prices_arr = [];
+
+        for (let i = 0; i < prices_objs.length; i++) {
+            prices_arr.push(+prices_objs[i].textContent);
+            // console.log(+prices_objs[i].textContent);
+        }
+
+        let items_quantity_objs = document.getElementsByClassName('item_quantity');
+        let items_quantities_arr = [];
+
+        for (let i = 0; i < items_quantity_objs.length; i++) {
+            items_quantities_arr.push(+items_quantity_objs[i].value);
+            // console.log(+prices_objs[i].textContent);
+        }
+
+        calculation_data.prices = prices_arr;
+        calculation_data.quantities = items_quantities_arr;
+
+        let result = 0;
+
+        for (let i = 0; i < calculation_data.prices.length; i++) {
+            result += calculation_data.prices[i] * calculation_data.quantities[i];
+        }
+        console.log(result);
+        $('#total_price').html(result);
+    }
+
+    showTotalPrice();
+
     $(document).ready(function () {
+
         $(".item_quantity").change((event) => {
             let item_id = event.target.getAttribute('id');
             let item_id_num = item_id.match(/\d+/)[0];
-            console.log(item_id, item_id_num);
+            // console.log(item_id, item_id_num);
             let old_quantity = +event.target.getAttribute('value');
             let new_quantity = +document.getElementById(item_id).value;
             if (new_quantity < 1) {
@@ -93,11 +132,10 @@
                         console.log("update_basket: ajax error");
                     },
                     success: function (answer) {
-                        console.log(answer);
-
                         let old_total_quantity = +document.getElementById("counter").getAttribute('data-value');
                         let new_total_quantity = old_total_quantity + new_quantity - old_quantity;
                         $('#counter').html(new_total_quantity);
+                        showTotalPrice();
                     }
                 });
         });
