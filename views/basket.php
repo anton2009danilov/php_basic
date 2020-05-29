@@ -30,11 +30,11 @@
             </tr>
             </thead>
             <tbody>
-            <!--        --><? //var_dump($basket->length)?>
+<!--                    --><?// var_dump(mysqli_fetch_assoc($basket))?>
 
             <? foreach ($basket as $item): ?>
                 <tr id="<?= $item['item_id'] ?>">
-                    <td><?= $item['item_name'] ?></td>
+                    <td><a href="../card/<?=$item['item_id']?>"><?= $item['item_name'] ?></a></td>
                     <td><span class="price"><?= $item['price'] ?></span> руб.</td>
                     <td><input id="item<?= $item['item_id'] ?>" class="item_quantity" type="number"
                                value="<?= $item['quantity'] ?>" min="1" max="100"
