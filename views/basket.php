@@ -106,6 +106,8 @@
         $(".delete").on('click', function (event) {
             let id = parseInt(event.target.id);
             let counter = $("#counter").html();
+            let id_name = "item" + id;
+            let item_quantity = +document.getElementById(id_name).getAttribute('value');
 
             $.ajax(
                 {
@@ -126,12 +128,13 @@
                         if (answer['error']) {
                             alert(answer['error']);
                         } else {
+
                             if (!answer['item_quantity']) {
                                 $('#' + id).remove();
                             } else {
                                 $('#item' + id).html(answer['item_quantity']);
                             }
-                            $('#counter').html(--counter);
+                            $('#counter').html(counter - item_quantity);
                         }
                     }
                 })

@@ -95,18 +95,21 @@ function delete_from_basket($id) {
     $response = [];
     $response['total_quantity'] = getTotalQuantity($user_id) - 1;
 
-    if($result['quantity'] == 1) {
+    $delete = "DELETE FROM `basket` WHERE id = {$result['id']}";
+    executeQuery($delete);
 
-        $delete = "DELETE FROM `basket` WHERE id = {$result['id']}";
-        executeQuery($delete);
-
-    } else {
-        // return $result;
-
-        $update = "UPDATE `basket` SET `quantity` = (`quantity` - 1) WHERE id = {$result['id']}";
-        executeQuery($update);
-        $response['item_quantity'] = $result['quantity'] - 1;
-    }
+//    if($result['quantity'] == 1) {
+//
+//        $delete = "DELETE FROM `basket` WHERE id = {$result['id']}";
+//        executeQuery($delete);
+//
+//    } else {
+//        // return $result;
+//
+//        $update = "UPDATE `basket` SET `quantity` = (`quantity` - 1) WHERE id = {$result['id']}";
+//        executeQuery($update);
+//        $response['item_quantity'] = $result['quantity'] - 1;
+//    }
 
     return $response;
 
