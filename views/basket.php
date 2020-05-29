@@ -113,6 +113,7 @@
                         console.log("update_basket: ajax error");
                     },
                     success: function (answer) {
+                        console.log(answer);
                         let old_total_quantity = +document.getElementById("counter").getAttribute('data-value');
                         let new_total_quantity = old_total_quantity + new_quantity - old_quantity;
                         $('#counter').html(new_total_quantity);

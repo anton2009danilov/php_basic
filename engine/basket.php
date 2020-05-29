@@ -64,7 +64,7 @@ function update_basket($item_id, $item_quantity) {
 
         $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND
                 `session` = '{$session}'";
-        $result = mysqli_fetch_assoc(executeQuery($select));
+        $result = mysqli_fetch_assoc(executeQuery($select))['id'];
     }
 
     $sql = "UPDATE `basket` SET `quantity` = $item_quantity WHERE id = $result";

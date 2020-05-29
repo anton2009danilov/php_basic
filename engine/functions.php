@@ -61,10 +61,14 @@ function prepareVariables($page)
         case 'update_basket':
 
             $item_id = $_POST['id'];
+
             $item_quantity = $_POST['quantity'];
 
             $response = [];
             $response['result'] = update_basket($item_id, $item_quantity);
+//            echo json_encode($response['result']);
+//            die();
+
             $response['id'] = $_POST['id'];
             $response['quantity'] = $_POST['quantity'];
 
