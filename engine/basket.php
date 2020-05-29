@@ -48,6 +48,32 @@ function add_to_basket($id) {
     
 }
 
+
+function update_basket($item_id, $item_quantity) {
+
+    $session = session_id();
+    // $user_id = $_SESSION['user'];
+    if(isset($_SESSION['id'])) {
+        $user_id = $_SESSION['id'];
+    }
+
+    if($user_id) {
+        $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND `user_id` = '{$user_id}' AND `session` = '{$session}'";
+        $result = mysqli_fetch_assoc(executeQuery($select))['id'];
+    } else {
+
+        $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND
+                `session` = '{$session}'";
+        $result = mysqli_fetch_assoc(executeQuery($select));
+    }
+
+    $sql = "UPDATE `basket` SET `quantity` = $item_quantity WHERE id = $result";
+
+    return executeQuery($sql);
+
+
+}
+
 function delete_from_basket($id) {
     $item_id = (int) $id;
     if (isset($_SESSION['id'])){
@@ -69,18 +95,21 @@ function delete_from_basket($id) {
     $response = [];
     $response['total_quantity'] = getTotalQuantity($user_id) - 1;
 
-    if($result['quantity'] == 1) {
+    $delete = "DELETE FROM `basket` WHERE id = {$result['id']}";
+    executeQuery($delete);
 
-        $delete = "DELETE FROM `basket` WHERE id = {$result['id']}";
-        executeQuery($delete);
-
-    } else {
-        // return $result;
-
-        $update = "UPDATE `basket` SET `quantity` = (`quantity` - 1) WHERE id = {$result['id']}";
-        executeQuery($update);
-        $response['item_quantity'] = $result['quantity'] - 1;
-    }
+//    if($result['quantity'] == 1) {
+//
+//        $delete = "DELETE FROM `basket` WHERE id = {$result['id']}";
+//        executeQuery($delete);
+//
+//    } else {
+//        // return $result;
+//
+//        $update = "UPDATE `basket` SET `quantity` = (`quantity` - 1) WHERE id = {$result['id']}";
+//        executeQuery($update);
+//        $response['item_quantity'] = $result['quantity'] - 1;
+//    }
 
     return $response;
 

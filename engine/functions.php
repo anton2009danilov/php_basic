@@ -58,6 +58,21 @@ function prepareVariables($page)
             die();
             break;
 
+        case 'update_basket':
+
+            $item_id = $_POST['id'];
+            $item_quantity = $_POST['quantity'];
+
+            $response = [];
+            $response['result'] = update_basket($item_id, $item_quantity);
+            $response['id'] = $_POST['id'];
+            $response['quantity'] = $_POST['quantity'];
+
+            echo json_encode($response);
+
+            die();
+            break;
+
         case 'change_order_status':
             $status = real_escape($_POST['status']);
             $order_id = real_escape($_POST['order_id']);
@@ -122,13 +137,7 @@ function prepareVariables($page)
 
             $check_if_like_exists = "SELECT * FROM `users_liked` WHERE `user_id` = '$user_id' and `item_id` = '$item_id'";
 
-//            $result = mysqli_fetch_assoc(executeQuery($check_if_like_exists))["liked"];
             $result = getAssocResult(($check_if_like_exists))[0]["liked"];
-
-//            $response['result'] = $result;
-//
-//            echo json_encode($response);die;
-
 
             // Проверяем существует ли запись в таблице users_liked
             if (isset($result)) {
