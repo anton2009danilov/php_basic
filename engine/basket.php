@@ -48,6 +48,32 @@ function add_to_basket($id) {
     
 }
 
+
+function update_basket($item_id, $item_quantity) {
+
+    $session = session_id();
+    // $user_id = $_SESSION['user'];
+    if(isset($_SESSION['id'])) {
+        $user_id = $_SESSION['id'];
+    }
+
+    if($user_id) {
+        $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND `user_id` = '{$user_id}' AND `session` = '{$session}'";
+        $result = mysqli_fetch_assoc(executeQuery($select))['id'];
+    } else {
+
+        $select = "SELECT * FROM `basket` WHERE `item_id`= {$item_id} AND
+                `session` = '{$session}'";
+        $result = mysqli_fetch_assoc(executeQuery($select));
+    }
+
+    $sql = "UPDATE `basket` SET `quantity` = $item_quantity WHERE id = $result";
+
+    return executeQuery($sql);
+
+
+}
+
 function delete_from_basket($id) {
     $item_id = (int) $id;
     if (isset($_SESSION['id'])){

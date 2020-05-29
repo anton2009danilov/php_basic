@@ -59,21 +59,15 @@ function prepareVariables($page)
             break;
 
         case 'update_basket':
-//            $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
-//            if (isset($_SESSION['id']) || isset($_SESSION['user'])) {
-//                // add_to_basket($id);
-//                $response['result'] = add_to_basket($id);
-//                echo json_encode($response);
-//                die();
-//            } else {
-//                $response['error'] = 'Ошибка: для совершения покупок необходимо войти на сайт';
-//                echo json_encode($response);
-//                die();
-//            }
-            // $response['result'] = 'ok';
-            // $response['id'] = $id;
-            // $response['SESSION_user'] = $_SESSION['user'];
-            $response = 'basket_updated';
+
+            $item_id = $_POST['id'];
+            $item_quantity = $_POST['quantity'];
+
+            $response = [];
+            $response['result'] = update_basket($item_id, $item_quantity);
+            $response['id'] = $_POST['id'];
+            $response['quantity'] = $_POST['quantity'];
+
             echo json_encode($response);
 
             die();

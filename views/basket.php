@@ -68,10 +68,15 @@
     $(document).ready(function () {
         $(".item_quantity").change((event) => {
             let item_id = event.target.getAttribute('id');
+            let item_id_num = item_id.match(/\d+/)[0];
+            console.log(item_id, item_id_num);
             let old_quantity = +event.target.getAttribute('value');
             let new_quantity = +document.getElementById(item_id).value;
-            if (new_quantity < 0) {
-                new_quantity = 0;
+            if (new_quantity < 1) {
+                new_quantity = 1;
+                document.getElementById(item_id)['value'] = new_quantity;
+            } else if (new_quantity > 100) {
+                new_quantity = 100;
                 document.getElementById(item_id)['value'] = new_quantity;
             }
 
@@ -81,7 +86,7 @@
                     type: "POST",
                     dataType: "json",
                     data: {
-                        id: item_id,
+                        id: item_id_num,
                         quantity: new_quantity
                     },
                     error: function () {
