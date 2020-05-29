@@ -1,18 +1,20 @@
 <div class='container'>
     <h3>Корзина:</h3>
 
-<!--    <ul class='d-flex flex-wrap justify-content-left'>-->
-<!--        --><?// $i = 1 ?>
-<!--        --><?// foreach ($basket as $item): ?>
-<!--            <li class='figure ml-3' id="--><?//= $item['item_id'] ?><!--">-->
-<!--                <h6>--><?//= $i ?><!--. --><?//= $item['item_name'] ?><!--</h6>-->
-<!--                <h6>Цена: --><?//= $item['price'] ?><!--</h6>-->
-<!--                <h6>Количество: <span id="item--><?//= $item['item_id'] ?><!--">--><?//= $item['quantity'] ?><!--</span></h6>-->
-<!--                <button class="delete" id="--><?//= $item['item_id'] ?><!--_deleteButton">Убрать из корзины</button>-->
-<!--                --><?// $i++ ?>
-<!--            </li>-->
-<!--        --><?// endforeach; ?>
-<!--    </ul>-->
+    <!--    <ul class='d-flex flex-wrap justify-content-left'>-->
+    <!--        --><? // $i = 1 ?>
+    <!--        --><? // foreach ($basket as $item): ?>
+    <!--            <li class='figure ml-3' id="--><? //= $item['item_id'] ?><!--">-->
+    <!--                <h6>--><? //= $i ?><!--. --><? //= $item['item_name'] ?><!--</h6>-->
+    <!--                <h6>Цена: --><? //= $item['price'] ?><!--</h6>-->
+    <!--                <h6>Количество: <span id="item--><? //= $item['item_id'] ?><!--">-->
+    <? //= $item['quantity'] ?><!--</span></h6>-->
+    <!--                <button class="delete" id="-->
+    <? //= $item['item_id'] ?><!--_deleteButton">Убрать из корзины</button>-->
+    <!--                --><? // $i++ ?>
+    <!--            </li>-->
+    <!--        --><? // endforeach; ?>
+    <!--    </ul>-->
 
 
     <table class="table">
@@ -30,8 +32,9 @@
             <tr id="<?= $item['item_id'] ?>">
                 <td><?= $item['item_name'] ?></td>
                 <td><?= $item['price'] ?> руб.</td>
-                <td><input id="item<?= $item['item_id'] ?> class="" type="number" name=""
-                    value="<?= $item['quantity'] ?>" min="1" max="100" step="1">
+                <td><input id="item<?= $item['item_id'] ?>" class="item_quantity" type="number"
+                           value="<?= $item['quantity'] ?>" min="1" max="100"
+                           step="1">
                 </td>
                 <td>
                     <button class="delete" id="<?= $item['item_id'] ?>_deleteButton">Убрать из корзины</button>
@@ -63,13 +66,41 @@
 <script>
 
     $(document).ready(function () {
+        $(".item_quantity").change((event) => {
+            let item_id = event.target.getAttribute('id');
+            let old_quantity = +event.target.getAttribute('value');
+            let new_quantity = +document.getElementById(item_id).value;
+            if (new_quantity < 0) {
+                new_quantity = 0;
+                document.getElementById(item_id)['value'] = new_quantity;
+            }
+
+            $.ajax(
+                {
+                    url: "../update_basket/",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        id: item_id,
+                        quantity: new_quantity
+                    },
+                    error: function () {
+                        console.log("update_basket: ajax error");
+                    },
+                    success: function (answer) {
+                        console.log(answer);
+
+                        let old_total_quantity = +document.getElementById("counter").getAttribute('data-value');
+                        let new_total_quantity = old_total_quantity + new_quantity - old_quantity;
+                        $('#counter').html(new_total_quantity);
+                    }
+                });
+        });
+
 
         $(".delete").on('click', function (event) {
             let id = parseInt(event.target.id);
-            console.log(id);
             let counter = $("#counter").html();
-            console.log(`counter: ${counter}`);
-
 
             $.ajax(
                 {
@@ -99,7 +130,7 @@
                         }
                     }
                 })
-        })
+        });
 
         $(".order").on('click', function (event) {
             event.preventDefault();

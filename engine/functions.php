@@ -58,6 +58,27 @@ function prepareVariables($page)
             die();
             break;
 
+        case 'update_basket':
+//            $id = (int)explode("/", $_SERVER['REQUEST_URI'])[2];
+//            if (isset($_SESSION['id']) || isset($_SESSION['user'])) {
+//                // add_to_basket($id);
+//                $response['result'] = add_to_basket($id);
+//                echo json_encode($response);
+//                die();
+//            } else {
+//                $response['error'] = 'Ошибка: для совершения покупок необходимо войти на сайт';
+//                echo json_encode($response);
+//                die();
+//            }
+            // $response['result'] = 'ok';
+            // $response['id'] = $id;
+            // $response['SESSION_user'] = $_SESSION['user'];
+            $response = 'basket_updated';
+            echo json_encode($response);
+
+            die();
+            break;
+
         case 'change_order_status':
             $status = real_escape($_POST['status']);
             $order_id = real_escape($_POST['order_id']);
@@ -122,13 +143,7 @@ function prepareVariables($page)
 
             $check_if_like_exists = "SELECT * FROM `users_liked` WHERE `user_id` = '$user_id' and `item_id` = '$item_id'";
 
-//            $result = mysqli_fetch_assoc(executeQuery($check_if_like_exists))["liked"];
             $result = getAssocResult(($check_if_like_exists))[0]["liked"];
-
-//            $response['result'] = $result;
-//
-//            echo json_encode($response);die;
-
 
             // Проверяем существует ли запись в таблице users_liked
             if (isset($result)) {
